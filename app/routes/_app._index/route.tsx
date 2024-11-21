@@ -22,7 +22,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     failureRedirect: "/auth/login",
   });
 
-  const address = user!.addresses[0];
+  const address = user.addresses[0];
   if (!address) throw redirect("/addresses/add");
 
   const balanceService = new BalanceService();

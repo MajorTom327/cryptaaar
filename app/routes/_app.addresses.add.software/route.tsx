@@ -88,7 +88,7 @@ export const LoginWalletPage = () => {
           setIsSigning(() => false);
         });
     }
-  }, [fetcher.submit, signer]);
+  }, [fetcher.submit, signer, data]);
 
   return (
     <div className="flex flex-col gap-2">
@@ -125,7 +125,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const userDao = new UserDao();
   await userDao.addAddress(user!, address);
 
-  user!.addresses.push(address);
+  user.addresses.push(address);
 
   session.set("user", user);
   session.unset("token");
