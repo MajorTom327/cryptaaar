@@ -4,29 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d412250b-f6bc-4b1e-b312-d5234317258a" name="Changes" comment="WIP: Review auth">
-      <change afterPath="$PROJECT_DIR$/app/.server/dao/addresses-dao.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/lib/formDataToObject.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/_app.addresses._index/route.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/_app.addresses.add._index/route.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/_app.addresses.add.software/components/connect-button.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/_app.addresses.add.software/components/no-wallet-button.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/_app.addresses.add.software/route.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="d412250b-f6bc-4b1e-b312-d5234317258a" name="Changes" comment="Finishing auth via email with storage of addresses">
       <change beforePath="$PROJECT_DIR$/app/.server/dao/contract-dao.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/.server/dao/contract-dao.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/.server/dao/user-dao.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/.server/dao/user-dao.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/.server/database/tables/contracts.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/.server/database/tables/contracts.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/.server/database/tables/users.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/.server/database/tables/users.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/.server/db.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/.server/db.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/.server/services/authenticator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/.server/services/authenticator.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/_app._index/route.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/_app._index/route.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/auth.login._index/route.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/auth.login._index/route.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/auth.login.wallet.keystone/route.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/auth.login.wallet.software/components/connect-button.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/auth.login.wallet.software/components/no-wallet-button.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/auth.login.wallet.software/route.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/auth.login.wallet/route.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/auth.register/route.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/auth.register/route.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,7 +151,7 @@
       <updated>1731638179425</updated>
       <workItem from="1731638180888" duration="18284000" />
       <workItem from="1731704946902" duration="58860000" />
-      <workItem from="1732161141476" duration="7975000" />
+      <workItem from="1732161141476" duration="8060000" />
     </task>
     <task id="LOCAL-00001" summary="First commit poc">
       <option name="closed" value="true" />
@@ -197,7 +177,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732163793806</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Finishing auth via email with storage of addresses">
+      <option name="closed" value="true" />
+      <created>1732169150176</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1732169150176</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -206,6 +194,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First commit poc" />
     <MESSAGE value="WIP: Review auth" />
-    <option name="LAST_COMMIT_MESSAGE" value="WIP: Review auth" />
+    <MESSAGE value="Finishing auth via email with storage of addresses" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finishing auth via email with storage of addresses" />
   </component>
 </project>

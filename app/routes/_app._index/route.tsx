@@ -22,7 +22,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
     failureRedirect: "/auth/login",
   });
 
-  console.log("USER", user);
   const address = user!.addresses[0];
   if (!address) throw redirect("/addresses/add");
 

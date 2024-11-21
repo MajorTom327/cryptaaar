@@ -37,9 +37,6 @@ export class UserDao {
     const hashedEmail = this.transformUserEmail(email);
     const hashedPassword = this.transformUserPassword(password);
 
-    console.log("HASHED EMAIL", hashedEmail);
-    console.log("HASHED PASSWORD", hashedPassword);
-
     const rows = await db
       .select()
       .from(users)
@@ -49,10 +46,8 @@ export class UserDao {
       );
 
     if (rows.length === 0) {
-      return null;
+      throw new Error("Invalid credentials");
     }
-
-    console.log("ROWS", rows);
 
     return {
       id: rows[0].users.id,
@@ -85,7 +80,6 @@ export class UserDao {
   }
 
   async addAddress(user: { id: string }, address: string) {
-    console.log("ADDRESS", JSON.stringify({ user, address }));
     return db
       .insert(addressesTable)
       .values({

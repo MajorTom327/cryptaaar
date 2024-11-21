@@ -56,7 +56,6 @@ export class ContractDao {
     return db.transaction(async (tx) => {
       const contract = await this.getOrCreateContract(address, chainId);
 
-      console.log("CONTRACT", contract);
       if (isNil(contract)) throw new Error("Contract not found");
 
       const [favorite] = await tx
@@ -69,23 +68,6 @@ export class ContractDao {
           ),
         )
         .limit(1);
-
-      console.log("FAVORITE", {
-        request: tx
-          .select()
-          .from(favoritesContracts)
-          .where(
-            and(
-              eq(favoritesContracts.contractId, contract.id),
-              eq(favoritesContracts.userId, this.user.id),
-            ),
-          )
-          .limit(1)
-          .toSQL(),
-        favorite,
-        contractId: contract.id,
-        userId: this.user.id,
-      });
 
       if (isNil(favorite)) {
         console.log("Setting as favorite");
