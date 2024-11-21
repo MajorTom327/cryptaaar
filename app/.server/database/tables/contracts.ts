@@ -1,10 +1,10 @@
 import { pgTable, text, unique } from "drizzle-orm/pg-core";
 
-import { usersTable } from "app/.server/database";
+import { users } from "app/.server/database";
 import { Network } from "alchemy-sdk";
 import { typeid } from "~/lib/type-id/type-id";
 
-export const contractsTable = pgTable(
+export const contracts = pgTable(
   "contracts",
   {
     id: text("id")
@@ -19,30 +19,30 @@ export const contractsTable = pgTable(
   }),
 );
 
-export const scamReportsTable = pgTable(
+export const scamReports = pgTable(
   "scam_contracts",
   {
     contractId: text("contract_id")
       .notNull()
-      .references(() => contractsTable.id, { onDelete: "cascade" }),
+      .references(() => contracts.id, { onDelete: "cascade" }),
     userId: text("user_id")
       .notNull()
-      .references(() => usersTable.id, { onDelete: "cascade" }),
+      .references(() => users.id, { onDelete: "cascade" }),
   },
   (t) => ({
     scam_report_uniq: unique("scam_report_uniq").on(t.contractId, t.userId),
   }),
 );
 
-export const favoritesTable = pgTable(
+export const favoritesContracts = pgTable(
   "favorites_contracts",
   {
     contractId: text("contract_id")
       .notNull()
-      .references(() => contractsTable.id, { onDelete: "cascade" }),
+      .references(() => contracts.id, { onDelete: "cascade" }),
     userId: text("user_id")
       .notNull()
-      .references(() => usersTable.id, { onDelete: "cascade" }),
+      .references(() => users.id, { onDelete: "cascade" }),
   },
   (t) => ({
     favorites_uniq: unique("favorites_uniq").on(t.contractId, t.userId),
