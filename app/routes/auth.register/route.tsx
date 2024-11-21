@@ -4,6 +4,7 @@ import { Input } from "~/components/ui/input";
 import { ActionFunctionArgs, data, redirect } from "@remix-run/node";
 import { z } from "zod";
 import { UserDao } from "~/.server/dao/user-dao";
+import { formDataToObject } from "~/lib/formDataToObject";
 
 const formDataSchema = z
   .object({
@@ -53,9 +54,9 @@ export const RegisterRoute = () => {
 export default RegisterRoute;
 
 export async function action({ request }: ActionFunctionArgs) {
-  const requestBody = await request.clone().json();
+  const requestBody = await request.clone().formData();
 
-  const formData = formDataSchema.safeParse(requestBody);
+  const formData = formDataSchema.safeParse(formDataToObject(requestBody));
   if (!formData.success) {
     console.log("ERROR", formData.error.issues);
     return data(formData.error.issues, {

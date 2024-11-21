@@ -1,6 +1,6 @@
 import { useSigner } from "~/contexts";
 import { Button } from "~/components/ui/button";
-import { NoWalletButton } from "~/routes/auth.login.wallet.software/components/no-wallet-button";
+import { NoWalletButton } from "./no-wallet-button";
 
 export const ConnectButton: React.FC<
   {

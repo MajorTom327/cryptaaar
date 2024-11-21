@@ -10,7 +10,9 @@ import {
 import { authenticator } from "~/.server/services/authenticator";
 import { commitSession, getSession } from "~/.server/services/session-service";
 import { z } from "zod";
-import { ConnectButton } from "~/routes/auth.login.wallet.software/components/connect-button";
+import { ConnectButton } from "./components/connect-button";
+import { AddressesDao } from "~/.server/dao/addresses-dao";
+import { UserDao } from "~/.server/dao/user-dao";
 
 const formDataSchema = z.object({
   message: z.object({
@@ -24,13 +26,14 @@ const formDataSchema = z.object({
 type FormData = z.infer<typeof formDataSchema>;
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const user = await authenticator.isAuthenticated(request, {
-    successRedirect: "/",
+  await authenticator.isAuthenticated(request, {
+    failureRedirect: "/auth/login",
   });
 
   const session = await getSession(request.headers.get("Cookie"));
+  const addressesDao = new AddressesDao();
 
-  await authenticator.generateToken(session);
+  session.set("token", addressesDao.generateToken());
 
   return data(
     {
@@ -74,7 +77,11 @@ export const LoginWalletPage = () => {
             token: input.token,
           };
 
-          fetcher.submit(data, { method: "POST", encType: "application/json" });
+          fetcher.submit(data, {
+            action: "/addresses/add/software",
+            method: "POST",
+            encType: "application/json",
+          });
         })
         .catch((e) => {
           console.log(e);
@@ -93,6 +100,10 @@ export const LoginWalletPage = () => {
 export default LoginWalletPage;
 
 export async function action({ request }: ActionFunctionArgs) {
+  const user = await authenticator.isAuthenticated(request, {
+    failureRedirect: "/auth/login",
+  });
+
   const requestBody = await request.clone().json();
 
   const formData = formDataSchema.safeParse(requestBody);
@@ -103,16 +114,23 @@ export async function action({ request }: ActionFunctionArgs) {
     });
   }
 
-  const user = await authenticator.validateToken(request, formData.data);
+  const { token, message, address } = formData.data;
+  const session = await getSession(request.headers.get("Cookie"));
 
-  if (!user) {
+  const addressesDao = new AddressesDao();
+  if (!addressesDao.verifyToken({ token, message, address }, session)) {
     throw new Response("Unauthorized", {});
   }
 
-  const session = await getSession(request.headers.get("Cookie"));
-  session.set("user", user);
+  const userDao = new UserDao();
+  await userDao.addAddress(user!, address);
 
-  return redirect("/", {
+  user!.addresses.push(address);
+
+  session.set("user", user);
+  session.unset("token");
+
+  return redirect("/addresses", {
     headers: {
       "Set-Cookie": await commitSession(session),
     },

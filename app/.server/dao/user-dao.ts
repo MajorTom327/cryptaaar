@@ -1,5 +1,5 @@
 import { db } from "~/.server/db";
-import { addressesTable, usersTable } from "~/.server/database";
+import { addressesTable, users } from "~/.server/database";
 import { and, eq } from "drizzle-orm";
 import crypto from "node:crypto";
 
@@ -23,7 +23,7 @@ export class UserDao {
     const hashedPassword = this.transformUserPassword(password);
 
     const user = await db
-      .insert(usersTable)
+      .insert(users)
       .values({
         email: hashedEmail,
         password: hashedPassword,
@@ -37,27 +37,28 @@ export class UserDao {
     const hashedEmail = this.transformUserEmail(email);
     const hashedPassword = this.transformUserPassword(password);
 
-    const user = await db
-      .select({
-        id: usersTable.id,
-        email: usersTable.email,
-        address: addressesTable.address,
-      })
-      .from(usersTable)
-      .leftJoin(addressesTable, eq(addressesTable.user, usersTable.id))
-      .where(
-        and(
-          eq(usersTable.email, hashedEmail),
-          eq(usersTable.password, hashedPassword),
-        ),
-      )
-      .limit(1);
+    console.log("HASHED EMAIL", hashedEmail);
+    console.log("HASHED PASSWORD", hashedPassword);
 
-    if (user.length === 0) {
+    const rows = await db
+      .select()
+      .from(users)
+      .leftJoin(addressesTable, eq(addressesTable.user, users.id))
+      .where(
+        and(eq(users.email, hashedEmail), eq(users.password, hashedPassword)),
+      );
+
+    if (rows.length === 0) {
       return null;
     }
 
-    return user[0];
+    console.log("ROWS", rows);
+
+    return {
+      id: rows[0].users.id,
+      email: rows[0].users.email,
+      addresses: rows.map((row) => row.user_addresses?.address).filter(Boolean),
+    };
   }
 
   async register(email: string, password: string) {
@@ -65,7 +66,7 @@ export class UserDao {
     const hashedPassword = this.transformUserPassword(password);
 
     const user = await db
-      .insert(usersTable)
+      .insert(users)
       .values({
         email: hashedEmail,
         password: hashedPassword,
@@ -81,5 +82,16 @@ export class UserDao {
       .from(addressesTable)
       .where(eq(addressesTable.user, userId))
       .then((addresses) => addresses.map((address) => address.address));
+  }
+
+  async addAddress(user: { id: string }, address: string) {
+    console.log("ADDRESS", JSON.stringify({ user, address }));
+    return db
+      .insert(addressesTable)
+      .values({
+        user: user.id,
+        address,
+      })
+      .returning();
   }
 }

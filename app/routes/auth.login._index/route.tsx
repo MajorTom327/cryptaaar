@@ -1,6 +1,8 @@
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import { Link, useFetcher } from "@remix-run/react";
+import { ActionFunctionArgs } from "@remix-run/node";
+import { authenticator } from "~/.server/services/authenticator";
 
 export const AuthLoginLayout = () => {
   const fetcher = useFetcher();
@@ -20,10 +22,17 @@ export const AuthLoginLayout = () => {
             Create an account
           </Link>
         </Button>
-        <Button type="submit">Register</Button>
+        <Button type="submit">Login</Button>
       </div>
     </fetcher.Form>
   );
 };
 
 export default AuthLoginLayout;
+
+export async function action({ request }: ActionFunctionArgs) {
+  return authenticator.authenticate("user-pass", request, {
+    successRedirect: "/",
+    failureRedirect: "/auth/login",
+  });
+}

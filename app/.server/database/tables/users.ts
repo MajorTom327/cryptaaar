@@ -3,7 +3,7 @@ import { typeid } from "~/lib/type-id/type-id";
 
 export type UserId = string;
 
-export const usersTable = pgTable("users", {
+export const users = pgTable("users", {
   id: text("id")
     .$defaultFn(() => typeid("user"))
     .primaryKey()
@@ -16,6 +16,6 @@ export const usersTable = pgTable("users", {
 export const addressesTable = pgTable("user_addresses", {
   user: text("id")
     .notNull()
-    .references(() => usersTable.id),
+    .references(() => users.id),
   address: text("address").notNull().unique(),
 });

@@ -1,5 +1,5 @@
 import { User } from "~/types";
-import { contractsTable, favoritesTable } from "~/.server/database";
+import { contracts, favoritesContracts } from "~/.server/database";
 import { db } from "~/.server/db";
 import { and, eq } from "drizzle-orm";
 import { Network } from "alchemy-sdk";
@@ -15,26 +15,23 @@ export class ContractDao {
   async getFavorites() {
     return db
       .select({
-        contractAddress: contractsTable.contractAddress,
-        chainId: contractsTable.chainId,
+        contractAddress: contracts.contractAddress,
+        chainId: contracts.chainId,
       })
-      .from(favoritesTable)
-      .leftJoin(
-        contractsTable,
-        eq(contractsTable.id, favoritesTable.contractId),
-      )
-      .where(eq(favoritesTable.userId, this.user.id));
+      .from(favoritesContracts)
+      .leftJoin(contracts, eq(contracts.id, favoritesContracts.contractId))
+      .where(eq(favoritesContracts.userId, this.user.id));
   }
 
   async getOrCreateContract(address: string, chainId: Network) {
     return db.transaction(async (tx) => {
       const [getContract] = await tx
         .select()
-        .from(contractsTable)
+        .from(contracts)
         .where(
           and(
-            eq(contractsTable.contractAddress, address),
-            eq(contractsTable.chainId, chainId),
+            eq(contracts.contractAddress, address),
+            eq(contracts.chainId, chainId),
           ),
         )
         .limit(1);
@@ -44,7 +41,7 @@ export class ContractDao {
       }
 
       const [contract] = await tx
-        .insert(contractsTable)
+        .insert(contracts)
         .values({
           chainId: chainId,
           contractAddress: address,
@@ -64,11 +61,11 @@ export class ContractDao {
 
       const [favorite] = await tx
         .select()
-        .from(favoritesTable)
+        .from(favoritesContracts)
         .where(
           and(
-            eq(favoritesTable.contractId, contract.id),
-            eq(favoritesTable.userId, this.user.id),
+            eq(favoritesContracts.contractId, contract.id),
+            eq(favoritesContracts.userId, this.user.id),
           ),
         )
         .limit(1);
@@ -76,11 +73,11 @@ export class ContractDao {
       console.log("FAVORITE", {
         request: tx
           .select()
-          .from(favoritesTable)
+          .from(favoritesContracts)
           .where(
             and(
-              eq(favoritesTable.contractId, contract.id),
-              eq(favoritesTable.userId, this.user.id),
+              eq(favoritesContracts.contractId, contract.id),
+              eq(favoritesContracts.userId, this.user.id),
             ),
           )
           .limit(1)
@@ -93,7 +90,7 @@ export class ContractDao {
       if (isNil(favorite)) {
         console.log("Setting as favorite");
         const [favorite] = await tx
-          .insert(favoritesTable)
+          .insert(favoritesContracts)
           .values({
             contractId: contract.id,
             userId: this.user.id,
@@ -103,11 +100,11 @@ export class ContractDao {
       } else {
         console.log("Removing as favorite");
         await tx
-          .delete(favoritesTable)
+          .delete(favoritesContracts)
           .where(
             and(
-              eq(favoritesTable.contractId, contract.id),
-              eq(favoritesTable.userId, this.user.id),
+              eq(favoritesContracts.contractId, contract.id),
+              eq(favoritesContracts.userId, this.user.id),
             ),
           );
       }

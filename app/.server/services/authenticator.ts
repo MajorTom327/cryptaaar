@@ -18,7 +18,10 @@ authenticator.use(
 
     const userDao = new UserDao();
 
-    return userDao.login(user.email, user.password);
+    return userDao.login(user.email, user.password).then((user) => {
+      if (!user) throw new Error("Invalid credentials");
+      return user;
+    });
   }),
   "user-pass",
 );

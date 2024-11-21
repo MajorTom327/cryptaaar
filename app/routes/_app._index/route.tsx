@@ -4,7 +4,11 @@ import {
   BalanceWithMetadata,
 } from "~/.server/services/blockchain/balance-service";
 import { BalanceTable } from "./balance-table";
-import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
+import {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  redirect,
+} from "@remix-run/node";
 import { Favorites } from "./favorites";
 import { authenticator } from "~/.server/services/authenticator";
 import { namedAction } from "remix-utils/named-action";
@@ -17,7 +21,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const user = await authenticator.isAuthenticated(request, {
     failureRedirect: "/auth/login",
   });
-  const address = user!.address;
+
+  console.log("USER", user);
+  const address = user!.addresses[0];
+  if (!address) throw redirect("/addresses/add");
 
   const balanceService = new BalanceService();
   const balances = await balanceService
