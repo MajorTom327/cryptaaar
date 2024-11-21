@@ -4,50 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d412250b-f6bc-4b1e-b312-d5234317258a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/.server/dao/contract-dao.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/.server/dao/user-dao.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/.server/database/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/.server/database/tables/contracts.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/.server/database/tables/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/.server/database/tables/users.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/.server/database/types.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/.server/db.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/.server/services/authenticator.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/.server/services/session-service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/components/formatters/big-number-format.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/components/formatters/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/components/formatters/network-format.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/components/ui/data-table.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/contexts/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/contexts/web3-context.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/hooks/use-matches-data.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/hooks/use-user.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/lib/schemas/BigNumberSchema.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/lib/type-id/type-id.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/_app._index/balance-table.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/_app._index/favorites/favorites.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/_app._index/favorites/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/_auth.login._index/route.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/_auth.login.keystone/route.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/_auth.login.wallet/components/connect-button.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/_auth.login.wallet/components/no-wallet-button.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/_auth.login.wallet/route.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/_auth.login/route.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/_auth.logout/route.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/_auth/assets/background.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/_auth/route.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/types/auth-strategies.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/types/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/types/user.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/drizzle.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.eslintrc.cjs" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintrc.cjs" afterDir="false" />
+    <list default="true" id="d412250b-f6bc-4b1e-b312-d5234317258a" name="Changes" comment="First commit poc">
+      <change afterPath="$PROJECT_DIR$/app/routes/auth.login._index/route.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/routes/auth.register/route.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.yarn/install-state.gz" beforeDir="false" afterPath="$PROJECT_DIR$/.yarn/install-state.gz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/root.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/root.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/_index.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/tailwind.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/tailwind.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/.server/dao/user-dao.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/.server/dao/user-dao.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/.server/database/tables/users.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/.server/database/tables/users.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/.server/services/authenticator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/.server/services/authenticator.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/app-layout/app-sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/app-layout/app-sidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/_app._index/route.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/_app._index/route.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/_app/route.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/_app/route.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/_auth.login._index/route.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/auth.login.wallet/route.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/_auth.login.keystone/route.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/auth.login.wallet.keystone/route.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/_auth.login.wallet/components/connect-button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/auth.login.wallet.software/components/connect-button.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/_auth.login.wallet/components/no-wallet-button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/auth.login.wallet.software/components/no-wallet-button.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/_auth.login.wallet/route.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/auth.login.wallet.software/route.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/_auth.login/route.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/_auth.logout/route.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/auth.logout/route.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/_auth/assets/background.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/auth/assets/background.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/_auth/route.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/auth/route.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/types/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/types/user.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -58,8 +36,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -82,33 +60,33 @@
     <option name="showExcludedFiles" value="false" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Docker.Compose.executor": "Run",
-    "Docker.Unnamed.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "code.cleanup.on.save": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/valentinthomas/development/perso/cryptaaar/app/routes/_auth/assets",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.db push.executor": "Run",
-    "npm.dev.executor": "Run",
-    "prettierjs.PrettierConfiguration.Package": "/Users/valentinthomas/development/perso/cryptaaar/node_modules/prettier",
-    "rearrange.code.on.save": "true",
-    "settings.editor.selected.configurable": "settings.javascript.prettier",
-    "ts.external.directory.path": "/Users/valentinthomas/development/perso/cryptaaar/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Docker.Compose.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;code.cleanup.on.save&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/valentinthomas/development/perso/cryptaaar/app/routes/_auth/assets&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.db push.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/valentinthomas/development/perso/cryptaaar/node_modules/prettier&quot;,
+    &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.prettier&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/valentinthomas/development/perso/cryptaaar/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/routes/_auth/assets" />
@@ -153,7 +131,10 @@
       </scripts>
       <node-interpreter value="project" />
       <envs />
-      <method v="2" />
+      <method v="2">
+        <option name="RunConfigurationTask" enabled="false" run_configuration_name="Compose" run_configuration_type="docker-deploy" />
+        <option name="RunConfigurationTask" enabled="true" run_configuration_name="db push" run_configuration_type="js.build_tools.npm" />
+      </method>
     </configuration>
     <list>
       <item itemvalue="Docker.Compose" />
@@ -177,11 +158,25 @@
       <option name="presentableId" value="Default" />
       <updated>1731638179425</updated>
       <workItem from="1731638180888" duration="18284000" />
-      <workItem from="1731704946902" duration="58667000" />
+      <workItem from="1731704946902" duration="58860000" />
+      <workItem from="1732161141476" duration="2462000" />
     </task>
+    <task id="LOCAL-00001" summary="First commit poc">
+      <option name="closed" value="true" />
+      <created>1732048210507</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1732048210507</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="First commit poc" />
+    <option name="LAST_COMMIT_MESSAGE" value="First commit poc" />
   </component>
 </project>

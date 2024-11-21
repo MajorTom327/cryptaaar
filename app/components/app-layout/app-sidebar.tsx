@@ -109,7 +109,7 @@ export const UserConnectionButton: React.FC = () => {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <Form method="post" action="/logout">
+        <Form method="post" action="/auth/logout">
           <SidebarMenuButton type={"submit"}>
             <LogOut />
             <span>{user?.ens ?? user?.address ?? "Log out"}</span>

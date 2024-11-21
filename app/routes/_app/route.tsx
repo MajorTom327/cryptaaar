@@ -6,7 +6,7 @@ import { LoaderFunctionArgs } from "@remix-run/node";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   await authenticator.isAuthenticated(request, {
-    failureRedirect: "/login",
+    failureRedirect: "/auth/login",
   });
   return null;
 }

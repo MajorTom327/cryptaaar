@@ -11,7 +11,7 @@ export default function LoginKeystoneRoute() {
           <AlertDescription>
             <p>
               {"Please use a software wallet on "}
-              <Link to={"/login/wallet"} className="underline">
+              <Link to={"/auth/login/wallet"} className="underline">
                 Wallet Login Page
               </Link>
               .
@@ -20,11 +20,11 @@ export default function LoginKeystoneRoute() {
         </Alert>
         <div className="grid grid-cols-2 gap-2">
           <Button asChild variant={"outline"}>
-            <Link to="/login">Back to login</Link>
+            <Link to="/auth/login">Back to login</Link>
           </Button>
 
           <Button asChild variant={"default"}>
-            <Link to="/login/wallet">Login with software wallet</Link>
+            <Link to="/auth/login/wallet">Login with software wallet</Link>
           </Button>
         </div>
       </div>

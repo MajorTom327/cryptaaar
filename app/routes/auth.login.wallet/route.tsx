@@ -7,14 +7,14 @@ export default function LoginRoute() {
     <>
       <div className="grid grid-cols-2 gap-2">
         <Button asChild variant={"outline"}>
-          <Link to="/login/keystone">
+          <Link to="/auth/login/wallet/keystone">
             <QrCode />
             Use AirGapped Wallet
           </Link>
         </Button>
 
         <Button asChild variant={"default"}>
-          <Link to="/login/wallet">
+          <Link to="/auth/login/wallet/software">
             <Wallet />
             Use Metamask Wallet
           </Link>

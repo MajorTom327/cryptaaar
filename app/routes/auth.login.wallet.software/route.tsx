@@ -10,7 +10,7 @@ import {
 import { authenticator } from "~/.server/services/authenticator";
 import { commitSession, getSession } from "~/.server/services/session-service";
 import { z } from "zod";
-import { ConnectButton } from "~/routes/_auth.login.wallet/components/connect-button";
+import { ConnectButton } from "~/routes/auth.login.wallet.software/components/connect-button";
 
 const formDataSchema = z.object({
   message: z.object({

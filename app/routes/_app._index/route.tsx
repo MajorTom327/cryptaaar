@@ -15,7 +15,7 @@ import { Suspense } from "react";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const user = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/login",
+    failureRedirect: "/auth/login",
   });
   const address = user!.address;
 
@@ -82,7 +82,7 @@ export default function Index() {
 
 export async function action({ request }: ActionFunctionArgs) {
   const user = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/login",
+    failureRedirect: "/auth/login",
   });
 
   return namedAction(request, {

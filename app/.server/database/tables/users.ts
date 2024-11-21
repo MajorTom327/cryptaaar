@@ -9,12 +9,12 @@ export const usersTable = pgTable("users", {
     .primaryKey()
     .notNull(),
 
-  mainAddress: text("main_address").notNull(),
+  email: text("email").notNull().unique(),
+  password: text("password").notNull(),
 });
 
 export const addressesTable = pgTable("user_addresses", {
   user: text("id")
-    .$defaultFn(() => typeid("user"))
     .notNull()
     .references(() => usersTable.id),
   address: text("address").notNull().unique(),
