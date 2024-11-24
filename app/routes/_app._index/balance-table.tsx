@@ -6,7 +6,7 @@ import {
 } from "~/.server/services/blockchain/balance-service";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "~/components/ui/data-table";
-import { Link, useFetcher } from "@remix-run/react";
+import { Form, Link, useFetcher } from "@remix-run/react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -150,10 +150,16 @@ const columns: ColumnDef<BalanceWithMetadata & { isFavorite: boolean }>[] = [
                 <span>Open in explorer</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem variant={"destructive"}>
-                <Flag />
-                <span>Mark contract as Scam</span>
-              </DropdownMenuItem>
+              <Form method="post" action="/?index&action=report">
+                <input type="hidden" name="contractAddress" value={contract} />
+                <input type="hidden" name="chainId" value={chainId} />
+                <DropdownMenuItem asChild variant={"destructive"}>
+                  <button type="submit">
+                    <Flag />
+                    <span>Mark contract as Scam</span>
+                  </button>
+                </DropdownMenuItem>
+              </Form>
             </DropdownMenuContent>
           </DropdownMenu>
         </>

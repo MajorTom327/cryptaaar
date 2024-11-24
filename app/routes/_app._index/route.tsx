@@ -16,16 +16,19 @@ import { z } from "zod";
 import { Network } from "alchemy-sdk";
 import { ContractDao } from "~/.server/dao/contract-dao";
 import { Suspense } from "react";
+import { AddressesDao } from "~/.server/dao/addresses-dao";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const user = await authenticator.isAuthenticated(request, {
     failureRedirect: "/auth/login",
   });
 
-  const address = user.addresses[0];
+  const addressDao = new AddressesDao();
+
+  const address = await addressDao.getMainAddress(user);
   if (!address) throw redirect("/addresses/add");
 
-  const balanceService = new BalanceService();
+  const balanceService = new BalanceService(user);
   const balances = await balanceService
     .getBalance(address)
     .then((balances) => {
@@ -107,7 +110,22 @@ export async function action({ request }: ActionFunctionArgs) {
       await contractDao.toggleFavorite(data.contractAddress, data.chainId);
 
       return null;
-      // do create
+    },
+    async report() {
+      const input = await request.formData();
+
+      const data = z
+        .object({
+          contractAddress: z.string(),
+          chainId: z.nativeEnum(Network),
+        })
+        .parse(Object.fromEntries(input.entries()));
+
+      const contractDao = new ContractDao(user!);
+
+      await contractDao.reportAsScam(data.contractAddress, data.chainId);
+
+      return null;
     },
   });
 }

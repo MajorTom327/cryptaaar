@@ -1,6 +1,9 @@
 import { v7 } from "uuid";
 import { Session, SessionData } from "@remix-run/node";
 import { ethers } from "ethers";
+import { addressesTable } from "~/.server/database";
+import { db } from "~/.server/db";
+import { and, eq } from "drizzle-orm";
 
 type VerifyTokenData = {
   token: string;
@@ -46,5 +49,25 @@ export class AddressesDao {
     }
 
     return true;
+  }
+
+  async getAddresses(user: { id: string }) {
+    return db
+      .select()
+      .from(addressesTable)
+      .where(eq(addressesTable.user, user.id));
+  }
+
+  async getMainAddress(user: { id: string }) {
+    return db
+      .select()
+      .from(addressesTable)
+      .where(
+        and(eq(addressesTable.user, user.id), eq(addressesTable.isMain, true)),
+      )
+      .limit(1)
+      .then((addresses) =>
+        addresses.length > 0 ? addresses[0].address : null,
+      );
   }
 }

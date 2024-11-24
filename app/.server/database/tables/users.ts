@@ -1,4 +1,4 @@
-import { pgTable, text } from "drizzle-orm/pg-core";
+import { boolean, pgTable, text } from "drizzle-orm/pg-core";
 import { typeid } from "~/lib/type-id/type-id";
 
 export type UserId = string;
@@ -18,4 +18,8 @@ export const addressesTable = pgTable("user_addresses", {
     .notNull()
     .references(() => users.id),
   address: text("address").notNull().unique(),
+  isMain: boolean("is_main").notNull().default(false),
 });
+
+export type UserAddress = typeof addressesTable.$inferSelect;
+export type NewUserAddress = typeof addressesTable.$inferInsert;

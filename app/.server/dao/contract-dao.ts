@@ -1,5 +1,5 @@
 import { User } from "~/types";
-import { contracts, favoritesContracts } from "~/.server/database";
+import { contracts, favoritesContracts, scamReports } from "~/.server/database";
 import { db } from "~/.server/db";
 import { and, eq } from "drizzle-orm";
 import { Network } from "alchemy-sdk";
@@ -91,5 +91,26 @@ export class ContractDao {
           );
       }
     });
+  }
+
+  async reportAsScam(address: string, chainId: Network) {
+    const contract = await this.getOrCreateContract(address, chainId);
+    if (isNil(contract)) throw new Error("Contract not found");
+
+    return db.insert(scamReports).values({
+      contractId: contract.id,
+      userId: this.user.id,
+    });
+  }
+
+  async getScamReports() {
+    return db
+      .select()
+      .from(scamReports)
+      .rightJoin(contracts, eq(scamReports.contractId, contracts.id))
+      .where(eq(scamReports.userId, this.user.id))
+      .then((reports) => {
+        return reports.map(({ contracts }) => contracts);
+      });
   }
 }

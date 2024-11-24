@@ -4,6 +4,8 @@ import { z } from "zod";
 import { BigNumberSchema } from "~/lib/schemas/BigNumberSchema";
 import { Network } from "alchemy-sdk";
 import { isNil } from "rambda";
+import { ContractDao } from "~/.server/dao/contract-dao";
+import { User } from "~/types";
 
 const contractMetadataSchema = z.object({
   decimals: z.number(),
@@ -26,7 +28,11 @@ export type BalanceWithMetadata = Balance & { metadata: ContractMetadata };
 const balancesSchema = z.array(balanceSchema);
 
 export class BalanceService {
-  constructor() {}
+  private user: User;
+
+  constructor(user: User) {
+    this.user = user;
+  }
 
   getBalanceForNetwork(
     address: string,
@@ -63,16 +69,33 @@ export class BalanceService {
     });
   }
 
-  getBalance(address: string): Promise<Balance[]> {
+  async getBalance(address: string): Promise<Balance[]> {
     const networks = AlchemyService.getNetworks();
+    const contractDao = new ContractDao(this.user);
+
+    const reports = await contractDao.getScamReports();
 
     return Promise.all(
       networks.map((network) => {
         return this.getBalanceForNetwork(address, network);
       }),
-    ).then((balances) => {
-      return balances.flat();
-    });
+    )
+      .then((balances) => {
+        return balances.flat();
+      })
+      .then(async (balances) => {
+        console.log(reports);
+
+        return balances.filter((balance) => {
+          return (
+            reports.findIndex(
+              (report) =>
+                report.contractAddress === balance.contractAddress &&
+                report.chainId === balance.chainId,
+            ) === -1
+          );
+        });
+      });
   }
 
   getContractMetadata(

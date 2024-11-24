@@ -1,6 +1,6 @@
 import { db } from "~/.server/db";
 import { addressesTable, users } from "~/.server/database";
-import { and, eq } from "drizzle-orm";
+import { and, count, eq } from "drizzle-orm";
 import crypto from "node:crypto";
 
 export class UserDao {
@@ -71,21 +71,24 @@ export class UserDao {
     return user[0];
   }
 
-  async getAddresses(userId: string) {
-    return db
-      .select({ address: addressesTable.address })
-      .from(addressesTable)
-      .where(eq(addressesTable.user, userId))
-      .then((addresses) => addresses.map((address) => address.address));
-  }
-
   async addAddress(user: { id: string }, address: string) {
-    return db
-      .insert(addressesTable)
-      .values({
-        user: user.id,
-        address,
-      })
-      .returning();
+    return db.transaction(async (tx) => {
+      const userAddressCount = await tx
+        .select({
+          count: count(),
+        })
+        .from(addressesTable)
+        .where(eq(addressesTable.user, user.id))
+        .limit(1)
+        .then((addresses) => addresses[0].count);
+      return tx
+        .insert(addressesTable)
+        .values({
+          user: user.id,
+          address,
+          isMain: userAddressCount === 0,
+        })
+        .returning();
+    });
   }
 }
