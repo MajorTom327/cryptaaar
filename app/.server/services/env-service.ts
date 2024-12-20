@@ -5,6 +5,7 @@ const publicEnvSchema = z.object({
 });
 const envSchema = publicEnvSchema.extend({
   ALCHEMY_API_KEY: z.string(),
+  SIMPLE_HASH_API_KEY: z.string(),
   REDIS_URI: z.string().default("redis://@127.0.0.1:6379"),
   SESSION_SECRET: z.string().default("change me"),
 });

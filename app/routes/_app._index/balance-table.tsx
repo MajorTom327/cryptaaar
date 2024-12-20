@@ -1,21 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
-import {
-  Balance,
-  BalanceWithMetadata,
-  ContractMetadata,
-} from "~/.server/services/blockchain/balance-service";
-import { ColumnDef } from "@tanstack/react-table";
-import { DataTable } from "~/components/ui/data-table";
+import NumberFlow from "@number-flow/react";
 import { Form, Link, useFetcher } from "@remix-run/react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
-import { Button } from "~/components/ui/button";
+import { ColumnDef } from "@tanstack/react-table";
+import { BigNumber } from "alchemy-sdk";
+import { ethers } from "ethers";
+import { formatUnits } from "ethers/lib/utils";
 import {
   ArrowRightLeft,
   Clipboard,
@@ -26,19 +14,31 @@ import {
   Send,
   Star,
 } from "lucide-react";
+import { Button } from "~/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { DataTable } from "~/components/ui/data-table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
 import { cn } from "~/lib/utils";
-import { BigNumberToFormat, NetworkFormat } from "~/components/formatters";
-import { BigNumber, Network } from "alchemy-sdk";
-import NumberFlow from "@number-flow/react";
-import { BigNumberish } from "ethers";
+import {
+  GetAddressBalanceResponse,
+  GetFungibleResponse,
+} from "~/types/simple-hash/balances";
+import { SimpleHashChain } from "~/types/simple-hash/sh-chains";
 
 type Props = {
-  balances: BalanceWithMetadata[];
-  favorites: { contractAddress: string; chainId: Network }[];
+  balances: GetFungibleResponse[];
+  favorites: { contractAddress: string; chainId: SimpleHashChain }[];
 };
 
 const FavButton: React.FC<{
-  balance: BalanceWithMetadata;
+  balance: GetFungibleResponse;
   isFavorite: boolean;
 }> = ({ balance, isFavorite }) => {
   const fetcher = useFetcher();
@@ -47,8 +47,8 @@ const FavButton: React.FC<{
 
   const onSubmit = () => {
     const formData = new FormData();
-    formData.append("contractAddress", balance.contractAddress);
-    formData.append("chainId", balance.chainId);
+    formData.append("contractAddress", balance.fungible_id.split(".")[1]);
+    formData.append("chainId", balance.chain);
     fetcher.submit(formData, { method: "POST", action: "/?index&action=fav" });
   };
 
@@ -59,7 +59,7 @@ const FavButton: React.FC<{
   );
 };
 
-const columns: ColumnDef<BalanceWithMetadata & { isFavorite: boolean }>[] = [
+const columns: ColumnDef<GetFungibleResponse & { isFavorite: boolean }>[] = [
   {
     accessorKey: "isFavorite",
     header: "Fav",
@@ -68,48 +68,58 @@ const columns: ColumnDef<BalanceWithMetadata & { isFavorite: boolean }>[] = [
     ),
   },
   {
-    accessorKey: "chainId",
+    accessorKey: "chain",
     header: "Chain",
-    cell: ({ cell }) => <NetworkFormat network={cell.getValue<Network>()} />,
   },
-  { accessorKey: "metadata.name", header: "Name" },
+  { accessorKey: "name", header: "Name" },
   {
-    accessorKey: "metadata",
     header: "Symbol",
-    cell: ({ cell }) => {
-      const metadata = cell.getValue<ContractMetadata>();
+    cell: ({ row }) => {
+      const metadata = row.original;
+
+      return <div className="flex items-center gap-2">{metadata.symbol}</div>;
+    },
+  },
+  {
+    id: "balance",
+    accessorKey: "queried_wallet_balances",
+    header: "Balance",
+    cell: ({ cell, row }) => {
+      const balances = cell.getValue<GetAddressBalanceResponse[]>();
+      const decimals = row.original.decimals;
 
       return (
-        <div className="flex items-center gap-2">
-          {metadata.logo && (
-            <img
-              alt={`${metadata.name} logo`}
-              src={metadata.logo}
-              className="w-6 h-6"
-            />
-          )}
-          {metadata.symbol}
+        <div className="flex flex-col gap-2">
+          {balances.map((balance) => (
+            <div key={balance.address} className="flex justify-between">
+              <NumberFlow
+                value={parseFloat(
+                  formatUnits(
+                    ethers.BigNumber.from(balance.quantity_string),
+                    decimals
+                  )
+                )}
+              />
+              <div>
+                <NumberFlow
+                  value={parseFloat(balance.value_usd_string ?? "0.0")}
+                />
+                {" USD"}
+              </div>
+            </div>
+          ))}
         </div>
       );
     },
   },
   {
-    id: "balance",
-    accessorKey: "tokenBalance",
-    header: "Balance",
-    cell: ({ cell }) => {
-      const balance = cell.getValue<BigNumberish>();
-      return <NumberFlow value={parseFloat(BigNumberToFormat(balance))} />;
-    },
-  },
-  {
-    accessorKey: "contractAddress",
+    accessorKey: "fungible_id",
     header: "Actions",
-    cell: ({ cell, row }) => {
-      const contract = cell.getValue<string>();
+    cell: ({ row }) => {
+      const contract = row.original.fungible_id.split(".")[1];
 
-      const balance = BigNumber.from(row.getValue<BigNumberish>("balance"));
-      const chainId = row.getValue<Network>("chainId");
+      const balance = BigNumber.from(0x0);
+      const chainId = row.getValue<SimpleHashChain>("chain");
 
       return (
         <>
@@ -169,9 +179,9 @@ const columns: ColumnDef<BalanceWithMetadata & { isFavorite: boolean }>[] = [
 ];
 
 export const BalanceTable: React.FC<Props> = ({ balances, favorites }) => {
-  const favs = favorites.map((fav) => fav.chainId + "#" + fav.contractAddress);
+  const favs = favorites.map((fav) => fav.chainId + "." + fav.contractAddress);
   const balancesWithFavorites = balances.map((balance) => {
-    const balanceId = balance.chainId + "#" + balance.contractAddress;
+    const balanceId = balance.fungible_id;
     return {
       ...balance,
       isFavorite: favs.includes(balanceId),

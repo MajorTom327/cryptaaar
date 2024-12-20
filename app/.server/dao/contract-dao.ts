@@ -1,9 +1,9 @@
-import { User } from "~/types";
+import { and, eq } from "drizzle-orm";
+import { isNil } from "rambda";
 import { contracts, favoritesContracts, scamReports } from "~/.server/database";
 import { db } from "~/.server/db";
-import { and, eq } from "drizzle-orm";
-import { Network } from "alchemy-sdk";
-import { isNil } from "rambda";
+import { User } from "~/types";
+import { SimpleHashChain } from "../../types/simple-hash/sh-chains";
 
 export class ContractDao {
   private user: User;
@@ -19,11 +19,11 @@ export class ContractDao {
         chainId: contracts.chainId,
       })
       .from(favoritesContracts)
-      .leftJoin(contracts, eq(contracts.id, favoritesContracts.contractId))
+      .innerJoin(contracts, eq(contracts.id, favoritesContracts.contractId))
       .where(eq(favoritesContracts.userId, this.user.id));
   }
 
-  async getOrCreateContract(address: string, chainId: Network) {
+  async getOrCreateContract(address: string, chainId: SimpleHashChain) {
     return db.transaction(async (tx) => {
       const [getContract] = await tx
         .select()
@@ -31,8 +31,8 @@ export class ContractDao {
         .where(
           and(
             eq(contracts.contractAddress, address),
-            eq(contracts.chainId, chainId),
-          ),
+            eq(contracts.chainId, chainId)
+          )
         )
         .limit(1);
 
@@ -52,7 +52,7 @@ export class ContractDao {
     });
   }
 
-  async toggleFavorite(address: string, chainId: Network) {
+  async toggleFavorite(address: string, chainId: SimpleHashChain) {
     return db.transaction(async (tx) => {
       const contract = await this.getOrCreateContract(address, chainId);
 
@@ -64,8 +64,8 @@ export class ContractDao {
         .where(
           and(
             eq(favoritesContracts.contractId, contract.id),
-            eq(favoritesContracts.userId, this.user.id),
-          ),
+            eq(favoritesContracts.userId, this.user.id)
+          )
         )
         .limit(1);
 
@@ -86,14 +86,14 @@ export class ContractDao {
           .where(
             and(
               eq(favoritesContracts.contractId, contract.id),
-              eq(favoritesContracts.userId, this.user.id),
-            ),
+              eq(favoritesContracts.userId, this.user.id)
+            )
           );
       }
     });
   }
 
-  async reportAsScam(address: string, chainId: Network) {
+  async reportAsScam(address: string, chainId: SimpleHashChain) {
     const contract = await this.getOrCreateContract(address, chainId);
     if (isNil(contract)) throw new Error("Contract not found");
 

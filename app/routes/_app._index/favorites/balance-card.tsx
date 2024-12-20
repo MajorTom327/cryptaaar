@@ -6,14 +6,14 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 
-import type { BalanceWithMetadata } from "~/.server/services/blockchain/balance-service";
+import NumberFlow from "@number-flow/react";
 import { ethers } from "ethers";
 import { formatUnits } from "ethers/lib/utils";
-import NumberFlow from "@number-flow/react";
 import { NetworkFormat } from "~/components/formatters";
+import { GetFungibleResponse } from "~/types/simple-hash/balances";
 
 type Props = {
-  balance: BalanceWithMetadata;
+  balance: GetFungibleResponse;
 };
 
 export const BalanceCard = ({ balance }: Props) => {
@@ -21,28 +21,32 @@ export const BalanceCard = ({ balance }: Props) => {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          {balance.metadata.logo && (
-            <img
-              className={"w-6"}
-              alt={balance.metadata.name + "'s logo"}
-              src={balance.metadata.logo}
-            />
-          )}
-          {balance.metadata.name}
+          {balance.name}
         </CardTitle>
         <CardDescription>
-          <NetworkFormat network={balance.chainId} />
+          <NetworkFormat network={balance.chain} />
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <NumberFlow
-          value={parseFloat(
-            formatUnits(
-              ethers.BigNumber.from(balance.tokenBalance),
-              balance.metadata.decimals,
-            ),
-          )}
-        />
+        <div className="flex flex-col">
+          <div className="text-3xl font-bold">
+            <NumberFlow
+              value={parseFloat(balance.total_value_usd_string ?? "0.0")}
+            />
+            {" USD"}
+          </div>
+          <div className="text-lg font-light">
+            <NumberFlow
+              value={parseFloat(
+                formatUnits(
+                  ethers.BigNumber.from(balance.total_quantity_string),
+                  balance.decimals
+                )
+              )}
+            />{" "}
+            {balance.symbol}
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

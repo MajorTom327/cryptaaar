@@ -1,13 +1,14 @@
-import { Network } from "alchemy-sdk";
 import { match } from "ts-pattern"; // Network.ETH_MAINNET,
+import { SimpleHashChain } from "~/types/simple-hash/sh-chains";
 
-export const NetworkFormat: React.FC<{ network: Network }> = ({ network }) => {
+export const NetworkFormat: React.FC<{ network: SimpleHashChain }> = ({
+  network,
+}) => {
   return match(network)
-    .with(Network.ETH_MAINNET, () => "Ethereum")
-    .with(Network.OPT_MAINNET, () => "Optimism")
-    .with(Network.MATIC_MAINNET, () => "Polygon")
-    .with(Network.BASE_MAINNET, () => "Base")
-    .with(Network.BNB_MAINNET, () => "BNB")
-    .with(Network.OPBNB_MAINNET, () => "Optimism BNB")
+    .with(SimpleHashChain.ethereum, () => "Ethereum")
+    .with(SimpleHashChain.optimism, () => "Optimism")
+    .with(SimpleHashChain.polygon, () => "Polygon")
+    .with(SimpleHashChain.base, () => "Base")
+    .with(SimpleHashChain.opbnb, () => "Optimism BNB")
     .otherwise((network) => `Unknown network: ${network}`);
 };

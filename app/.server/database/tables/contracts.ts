@@ -1,8 +1,8 @@
 import { pgTable, text, unique } from "drizzle-orm/pg-core";
 
 import { users } from "app/.server/database";
-import { Network } from "alchemy-sdk";
 import { typeid } from "~/lib/type-id/type-id";
+import { SimpleHashChain } from "~/types/simple-hash/sh-chains";
 
 export const contracts = pgTable(
   "contracts",
@@ -12,11 +12,11 @@ export const contracts = pgTable(
       .primaryKey()
       .notNull(),
     contractAddress: text("contract_address").notNull(),
-    chainId: text("chain_id").notNull().$type<Network>(),
+    chainId: text("chain_id").notNull().$type<SimpleHashChain>(),
   },
   (t) => ({
     contract_uniq: unique("contract_uniq").on(t.contractAddress, t.chainId),
-  }),
+  })
 );
 
 export const scamReports = pgTable(
@@ -31,7 +31,7 @@ export const scamReports = pgTable(
   },
   (t) => ({
     scam_report_uniq: unique("scam_report_uniq").on(t.contractId, t.userId),
-  }),
+  })
 );
 
 export const favoritesContracts = pgTable(
@@ -46,5 +46,5 @@ export const favoritesContracts = pgTable(
   },
   (t) => ({
     favorites_uniq: unique("favorites_uniq").on(t.contractId, t.userId),
-  }),
+  })
 );
