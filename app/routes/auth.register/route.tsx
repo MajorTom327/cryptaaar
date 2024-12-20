@@ -1,16 +1,18 @@
-import { Form, Link } from "@remix-run/react";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
 import { ActionFunctionArgs, data, redirect } from "@remix-run/node";
+import { Form, Link } from "@remix-run/react";
 import { z } from "zod";
 import { UserDao } from "~/.server/dao/user-dao";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
 import { formDataToObject } from "~/lib/formDataToObject";
+import { EmailTooltip } from "./email-tooltip";
 
 const formDataSchema = z
   .object({
-    email: z.string(),
-    password: z.string(),
-    confirm_password: z.string(),
+    email: z.string().email(),
+    password: z.string().min(8),
+    confirm_password: z.string().min(8),
   })
   .superRefine((data, ctx) => {
     if (data.password !== data.confirm_password) {
@@ -31,7 +33,12 @@ export const RegisterRoute = () => {
       action="/auth/register"
       className={"flex flex-col gap-2"}
     >
-      <Input name="email" type="email" placeholder="Email" />
+      <div className="flex flex-col gap-2">
+        <EmailTooltip>
+          <Label>Email</Label>
+        </EmailTooltip>
+        <Input name="email" type="email" placeholder="Email" />
+      </div>
       <Input name="password" type="password" placeholder="Password" />
       <Input
         name="confirm_password"

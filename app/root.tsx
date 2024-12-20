@@ -1,15 +1,18 @@
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useRouteError,
 } from "@remix-run/react";
-import type { LoaderFunctionArgs } from "@remix-run/node";
 
-import "./tailwind.css";
-import { Web3Provider } from "~/contexts";
+import { propOr } from "rambda";
 import { authenticator } from "~/.server/services/authenticator";
+import { Web3Provider } from "~/contexts";
+import { TooltipProvider } from "./components/ui/tooltip";
+import "./tailwind.css";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const user = await authenticator.isAuthenticated(request);
@@ -29,11 +32,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <Web3Provider>
-          {children}
-          <ScrollRestoration />
-          <Scripts />
-        </Web3Provider>
+        <TooltipProvider>
+          <Web3Provider>
+            {children}
+            <ScrollRestoration />
+            <Scripts />
+          </Web3Provider>
+        </TooltipProvider>
       </body>
     </html>
   );
@@ -42,3 +47,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return <Outlet />;
 }
+
+export const ErrorBoundary = () => {
+  const error = useRouteError();
+  console.log("error", error);
+  return <div>Error {propOr(500, "status", error)}</div>;
+};

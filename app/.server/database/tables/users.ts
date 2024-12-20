@@ -19,6 +19,8 @@ export const addressesTable = pgTable("user_addresses", {
     .references(() => users.id),
   address: text("address").notNull().unique(),
   isMain: boolean("is_main").notNull().default(false),
+  isHardware: boolean("is_hardware").notNull().default(false),
+  label: text("label"),
 });
 
 export type UserAddress = typeof addressesTable.$inferSelect;
