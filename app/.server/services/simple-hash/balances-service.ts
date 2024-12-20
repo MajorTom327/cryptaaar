@@ -14,10 +14,8 @@ import { CACHE_TTL_SHORT, redis } from "../redis-service";
 import { SimpleHashService } from "./simple-hash";
 
 export class BalancesService extends SimpleHashService {
-  async getBalances(address: string | string[]) {
-    const sortedAddress = Array.isArray(address)
-      ? address.sort((a, b) => a.localeCompare(b))
-      : [address];
+  async getBalances(address?: string | string[]) {
+    const sortedAddress = this.getAddresses(address);
     const cacheKey = `${sortedAddress.join(",")}:balance`;
     const logger = getLogger(["cryptaaar", "balances-service"]);
     const contractDao = new ContractDao(this.user);
@@ -29,7 +27,29 @@ export class BalancesService extends SimpleHashService {
       .then(async (balance): Promise<GetBalanceResponse> => {
         if (balance) {
           logger.info("Cache hit");
-          return GetBalanceResponseSchema.parse(JSON.parse(balance));
+          const data = GetBalanceResponseSchema.parse(JSON.parse(balance));
+
+          const result = {
+            ...data,
+            fungibles: data.fungibles.filter((f) => {
+              const [chain, address] = f.fungible_id.split(".");
+
+              return (
+                reports.findIndex(
+                  (r) => r.chainId === chain && r.contractAddress === address
+                ) === -1
+              );
+            }),
+          };
+
+          if (result.fungibles.length !== data.fungibles.length) {
+            return redis
+              .setex(cacheKey, CACHE_TTL_SHORT, JSON.stringify(result))
+              .then(() => result)
+              .catch(() => result);
+          }
+
+          return result;
         }
 
         return this.get<GetBalanceResponse>({
@@ -39,6 +59,7 @@ export class BalancesService extends SimpleHashService {
             wallet_addresses: sortedAddress.join(","),
             include_prices: 1,
             include_native_tokens: 1,
+            order_by: "total_value_usd__desc",
           },
         }).then((res) => {
           const native_tokens = z

@@ -23,8 +23,8 @@ export const PriceSchema = z.object({
 
 export const FungibleSchema = z.object({
   fungible_id: z.string(),
-  name: z.string(),
-  symbol: z.string(),
+  name: z.string().nullable().default("Unknown"),
+  symbol: z.string().nullable().default("Unknown"),
   decimals: z.number(),
   chain: z.nativeEnum(SimpleHashChain),
   prices: z.array(PriceSchema),

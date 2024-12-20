@@ -15,6 +15,7 @@ import {
   Star,
 } from "lucide-react";
 import { useState } from "react";
+import { ChainBadge } from "~/components/chain-badge";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -77,6 +78,10 @@ const columns: ColumnDef<GetFungibleResponse & { isFavorite: boolean }>[] = [
   {
     accessorKey: "chain",
     header: "Chain",
+    cell: ({ cell }) => {
+      const chain = cell.getValue<SimpleHashChain>();
+      return <ChainBadge chain={chain} />;
+    },
   },
   { accessorKey: "name", header: "Name" },
   {
@@ -125,8 +130,14 @@ const columns: ColumnDef<GetFungibleResponse & { isFavorite: boolean }>[] = [
     cell: ({ row }) => {
       const contract = row.original.fungible_id.split(".")[1];
 
-      const balance = BigNumber.from(0x0);
+      const balances = row.original.queried_wallet_balances.map((b) =>
+        BigNumber.from(b.quantity_string ?? "0")
+      );
+
+      const haveBalance = balances.some((b) => !b.isZero());
       const chainId = row.getValue<SimpleHashChain>("chain");
+
+      const assetId = row.original.fungible_id;
 
       return (
         <>
@@ -139,7 +150,7 @@ const columns: ColumnDef<GetFungibleResponse & { isFavorite: boolean }>[] = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Transaction</DropdownMenuLabel>
-              <DropdownMenuItem disabled={balance.isZero()}>
+              <DropdownMenuItem disabled={!haveBalance}>
                 <Send />
                 <span>Transfer</span>
               </DropdownMenuItem>
@@ -150,7 +161,7 @@ const columns: ColumnDef<GetFungibleResponse & { isFavorite: boolean }>[] = [
 
               <DropdownMenuLabel>Asset</DropdownMenuLabel>
               <DropdownMenuItem asChild>
-                <Link to={`/assets/${chainId}/${contract}`}>
+                <Link to={`/assets/${assetId}`}>
                   <Search />
                   <span>View asset</span>
                 </Link>
@@ -211,7 +222,7 @@ export const BalanceTable: React.FC<Props> = ({ balances, favorites }) => {
         <CardDescription>
           <Button
             size="sm"
-            variant={"outline"}
+            variant={hideEmpty ? "default" : "outline"}
             onClick={() => setHideEmpty(!hideEmpty)}
           >
             Hide empty

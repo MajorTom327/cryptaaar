@@ -4,13 +4,9 @@ import { CollectionItem } from "./collection-item";
 
 type Props = {
   collections: GetCollectionResponse["collections"];
-  onSelect: (collectionId: string) => void;
 };
 
-export const CollectionSelector: React.FC<Props> = ({
-  collections,
-  onSelect,
-}) => {
+export const CollectionSelector: React.FC<Props> = ({ collections }) => {
   return (
     <>
       <ScrollArea className="w-full rounded snap-x">
@@ -19,7 +15,6 @@ export const CollectionSelector: React.FC<Props> = ({
             <CollectionItem
               key={collection.collection_id}
               collection={collection}
-              onClick={() => onSelect(collection.collection_id)}
             />
           ))}
         </div>

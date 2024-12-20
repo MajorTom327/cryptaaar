@@ -1,3 +1,17 @@
+import { Form, Link } from "@remix-run/react";
+import {
+  ArrowLeftRight,
+  BookUser,
+  ChartNoAxesCombined,
+  Cog,
+  LayoutDashboard,
+  LogOut,
+  Mailbox,
+  Palette,
+  Signature,
+  UserRound,
+} from "lucide-react";
+import { PropsWithChildren } from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -9,20 +23,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "~/components/ui/sidebar";
-import { Form, Link } from "@remix-run/react";
-import { PropsWithChildren } from "react";
-import {
-  ArrowLeftRight,
-  BookCheck,
-  BookUser,
-  ChartNoAxesCombined,
-  Cog,
-  LayoutDashboard,
-  LogOut,
-  Mailbox,
-  Palette,
-  UserRound,
-} from "lucide-react";
 import { useUser } from "~/hooks/use-user";
 
 type LinkItemProps = PropsWithChildren<{
@@ -70,7 +70,7 @@ export function AppSidebar() {
               <LinkItem icon={<ArrowLeftRight />} to="/transactions">
                 Transactions
               </LinkItem>
-              <LinkItem icon={<BookCheck />} to="/contracts">
+              <LinkItem icon={<Signature />} to="/contracts">
                 Contracts
               </LinkItem>
               <LinkItem icon={<BookUser />} to="/contacts">

@@ -6,7 +6,6 @@ type Props = {
 };
 
 export const Favorites: React.FC<Props> = ({ balances }) => {
-  console.log(balances);
   return (
     <div className={"grid grid-cols-2 gap-2"}>
       {balances.map((balance) => (
