@@ -14,8 +14,15 @@ import {
   Send,
   Star,
 } from "lucide-react";
+import { useState } from "react";
 import { Button } from "~/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
 import { DataTable } from "~/components/ui/data-table";
 import {
   DropdownMenu,
@@ -180,17 +187,36 @@ const columns: ColumnDef<GetFungibleResponse & { isFavorite: boolean }>[] = [
 
 export const BalanceTable: React.FC<Props> = ({ balances, favorites }) => {
   const favs = favorites.map((fav) => fav.chainId + "." + fav.contractAddress);
-  const balancesWithFavorites = balances.map((balance) => {
-    const balanceId = balance.fungible_id;
-    return {
-      ...balance,
-      isFavorite: favs.includes(balanceId),
-    };
-  });
+
+  const [hideEmpty, setHideEmpty] = useState(false);
+
+  const balancesWithFavorites = balances
+    .filter((balance) => {
+      if (hideEmpty) {
+        return balance.queried_wallet_balances.some((qb) => qb.quantity > 0);
+      }
+      return true;
+    })
+    .map((balance) => {
+      const balanceId = balance.fungible_id;
+      return {
+        ...balance,
+        isFavorite: favs.includes(balanceId),
+      };
+    });
   return (
     <Card>
       <CardHeader>
         <CardTitle>Balances</CardTitle>
+        <CardDescription>
+          <Button
+            size="sm"
+            variant={"outline"}
+            onClick={() => setHideEmpty(!hideEmpty)}
+          >
+            Hide empty
+          </Button>
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <DataTable columns={columns} data={balancesWithFavorites} />

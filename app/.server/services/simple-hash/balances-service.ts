@@ -15,7 +15,10 @@ import { SimpleHashService } from "./simple-hash";
 
 export class BalancesService extends SimpleHashService {
   async getBalances(address: string | string[]) {
-    const cacheKey = `${address}:balance`;
+    const sortedAddress = Array.isArray(address)
+      ? address.sort((a, b) => a.localeCompare(b))
+      : [address];
+    const cacheKey = `${sortedAddress.join(",")}:balance`;
     const logger = getLogger(["cryptaaar", "balances-service"]);
     const contractDao = new ContractDao(this.user);
 
@@ -33,9 +36,7 @@ export class BalancesService extends SimpleHashService {
           path: "/api/v0/fungibles/balances",
           query: {
             chains: Object.values(SimpleHashChain).join(","),
-            wallet_addresses: Array.isArray(address)
-              ? address.join(",")
-              : address,
+            wallet_addresses: sortedAddress.join(","),
             include_prices: 1,
             include_native_tokens: 1,
           },
