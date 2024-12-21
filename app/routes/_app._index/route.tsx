@@ -13,7 +13,8 @@ import { authenticator } from "~/.server/services/authenticator";
 import { BalancesService as SimpleHashService } from "~/.server/services/simple-hash";
 import { SimpleHashChain } from "~/types/simple-hash/sh-chains";
 import { BalanceTable } from "./balance-table";
-import { Favorites } from "./favorites";
+import { DistributionCard } from "./distribution-card";
+import { BalanceCard } from "./favorites/balance-card";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const user = await authenticator.isAuthenticated(request, {
@@ -51,11 +52,23 @@ export default function Index() {
             );
 
             return (
-              <Favorites
-                balances={balances.filter((balance) =>
-                  favoritesAddresses.includes(balance.fungible_id)
-                )}
-              />
+              <div className={"flex flex-col gap-2"}>
+                <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-2 ">
+                  <DistributionCard balances={balances} />
+                </div>
+                <div className={"grid grid-cols-2 gap-2"}>
+                  {balances
+                    .filter((balance) =>
+                      favoritesAddresses.includes(balance.fungible_id)
+                    )
+                    .map((balance) => (
+                      <BalanceCard
+                        key={balance.fungible_id}
+                        balance={balance}
+                      />
+                    ))}
+                </div>
+              </div>
             );
           }}
         </Await>
