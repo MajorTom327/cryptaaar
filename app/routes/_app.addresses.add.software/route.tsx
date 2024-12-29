@@ -8,6 +8,7 @@ import { preventNotConnected } from "~/.server/utils/prevent/prevent-not-connect
 import { useSigner } from "~/contexts";
 import type { Route } from "./+types/route";
 import { ConnectButton } from "./components/connect-button";
+export { ErrorBoundary } from "~/components/error-boundary";
 
 const formDataSchema = z.object({
   message: z.object({

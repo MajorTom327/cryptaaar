@@ -4,6 +4,7 @@ import { sessionStorage } from "~/.server/services/session-service";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import type { Route } from "./+types/route";
+export { ErrorBoundary } from "~/components/error-boundary";
 
 export const AuthLoginLayout = () => {
   const fetcher = useFetcher();

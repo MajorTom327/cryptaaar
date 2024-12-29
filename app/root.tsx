@@ -38,6 +38,15 @@ export async function loader({ request }: Route.LoaderArgs) {
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  // useEffect(() => {
+  //   // @ts-ignore
+  //   window.process = {
+  //     env: {
+  //       KEYSTONE_USB_ENV: "production",
+  //     },
+  //   };
+  // }, []);
+
   return (
     <html lang="en">
       <head>

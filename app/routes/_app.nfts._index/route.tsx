@@ -1,3 +1,5 @@
+export { ErrorBoundary } from "~/components/error-boundary";
+
 export const NftsIndexRoute = () => {
   return (
     <div className="w-full h-full min-h-48 flex flex-col items-center justify-center text-center text-muted-foreground">

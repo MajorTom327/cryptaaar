@@ -1,6 +1,7 @@
 import { Outlet } from "react-router";
-import bgImage from "./assets/background.jpg";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import bgImage from "./assets/background.jpg";
+export { ErrorBoundary } from "~/components/error-boundary";
 
 export const AuthLayout = () => {
   return (

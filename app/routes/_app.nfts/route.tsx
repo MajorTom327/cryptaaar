@@ -6,6 +6,7 @@ import { Separator } from "~/components/ui/separator";
 import type { Route } from "./+types/route";
 import { CollectionItem } from "./components/collection-item";
 import { CollectionSelector } from "./components/collection-selector";
+export { ErrorBoundary } from "~/components/error-boundary";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const user = await preventNotConnected(request);

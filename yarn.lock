@@ -1506,6 +1506,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hookform/resolvers@npm:^3.9.1":
+  version: 3.9.1
+  resolution: "@hookform/resolvers@npm:3.9.1"
+  peerDependencies:
+    react-hook-form: ^7.0.0
+  checksum: 10c0/8a4056db3860b12ee30921ba352996104d6ae75ac45996d4c8b6df429e07ee73f5b87c82a22a15403789213f6f52f5fead1c2637b26ef624068b68d213362cd1
+  languageName: node
+  linkType: hard
+
 "@ioredis/commands@npm:^1.1.1":
   version: 1.2.0
   resolution: "@ioredis/commands@npm:1.2.0"
@@ -3728,6 +3737,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "cryptaaar@workspace:."
   dependencies:
+    "@hookform/resolvers": "npm:^3.9.1"
     "@keystonehq/hw-app-eth": "npm:^0.4.4"
     "@keystonehq/hw-app-sol": "npm:^0.1.1"
     "@keystonehq/hw-transport-webusb": "npm:^0.5.1"
@@ -3757,6 +3767,7 @@ __metadata:
     class-variance-authority: "npm:^0.7.1"
     clsx: "npm:^2.1.1"
     cross-env: "npm:^7.0.3"
+    dotenv: "npm:^16.4.7"
     drizzle-kit: "npm:^0.30.1"
     drizzle-orm: "npm:^0.38.3"
     embla-carousel-react: "npm:^8.5.1"
@@ -3773,17 +3784,18 @@ __metadata:
     rambda: "npm:^9.4.1"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
+    react-hook-form: "npm:^7.54.2"
     react-router: "npm:^7.1.1"
     recharts: "npm:^2.15.0"
     remix-auth: "npm:^4.1.0"
     remix-auth-form: "npm:^3.0.0"
+    remix-hook-form: "npm:^6.1.0"
     remix-utils: "npm:^8.0.0"
     sonner: "npm:^1.7.1"
     tailwind-merge: "npm:^2.6.0"
     tailwindcss: "npm:^3.4.17"
     tailwindcss-animate: "npm:^1.0.7"
     ts-pattern: "npm:^5.6.0"
-    typeid-js: "npm:^1.1.0"
     typescript: "npm:^5.7.2"
     uuid: "npm:^11.0.3"
     vite: "npm:^5.4.11"
@@ -4029,6 +4041,13 @@ __metadata:
     "@babel/runtime": "npm:^7.8.7"
     csstype: "npm:^3.0.2"
   checksum: 10c0/f735074d66dd759b36b158fa26e9d00c9388ee0e8c9b16af941c38f014a37fc80782de83afefd621681b19ac0501034b4f1c4a3bff5caa1b8667f0212b5e124c
+  languageName: node
+  linkType: hard
+
+"dotenv@npm:^16.4.7":
+  version: 16.4.7
+  resolution: "dotenv@npm:16.4.7"
+  checksum: 10c0/be9f597e36a8daf834452daa1f4cc30e5375a5968f98f46d89b16b983c567398a330580c88395069a77473943c06b877d1ca25b4afafcdd6d4adb549e8293462
   languageName: node
   linkType: hard
 
@@ -6831,6 +6850,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-hook-form@npm:^7.54.2":
+  version: 7.54.2
+  resolution: "react-hook-form@npm:7.54.2"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18 || ^19
+  checksum: 10c0/6eebead2900e3d369a989e7a20429f390dc75b3897142aa3107f1f6dabb9ae64fed201ea98cdcd8676e40466c97748aeb0c0d83264f5bd3a84dbc0b8e4863415
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^16.13.1":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
@@ -7072,6 +7100,18 @@ __metadata:
   version: 4.1.0
   resolution: "remix-auth@npm:4.1.0"
   checksum: 10c0/902475a53a0d3109dbad148c7474b96c891cf010988eea244187a7b5bd89443acc2762400fe9ab75139c90d513470af66398735fd0b5c5c11a6991809134dafa
+  languageName: node
+  linkType: hard
+
+"remix-hook-form@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "remix-hook-form@npm:6.1.0"
+  peerDependencies:
+    react: ^18.2.0
+    react-dom: ^18.2.0
+    react-hook-form: ^7.51.0
+    react-router: ">=7.0.0"
+  checksum: 10c0/50ddee2f9bd43c26ee4f058c09a2cbf2798a00773edb310e0db609026badf77d74d384ad62cf1dd18759bd06887811fc15bce4d05740c0cb26228083aa8da6f6
   languageName: node
   linkType: hard
 
@@ -7909,15 +7949,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typeid-js@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "typeid-js@npm:1.1.0"
-  dependencies:
-    uuid: "npm:^10.0.0"
-  checksum: 10c0/c385e9db7fb15c336a10acca661f4f8ddc2c2c64e9b21ed2d73835b918c02ca3aaf4514fd6d4dcbb06f4dca9480184bee65d873389a65c58e71cc037641818f1
-  languageName: node
-  linkType: hard
-
 "typescript@npm:^5.7.2":
   version: 5.7.2
   resolution: "typescript@npm:5.7.2"
@@ -8070,15 +8101,6 @@ __metadata:
   version: 1.0.1
   resolution: "utils-merge@npm:1.0.1"
   checksum: 10c0/02ba649de1b7ca8854bfe20a82f1dfbdda3fb57a22ab4a8972a63a34553cf7aa51bc9081cf7e001b035b88186d23689d69e71b510e610a09a4c66f68aa95b672
-  languageName: node
-  linkType: hard
-
-"uuid@npm:^10.0.0":
-  version: 10.0.0
-  resolution: "uuid@npm:10.0.0"
-  bin:
-    uuid: dist/bin/uuid
-  checksum: 10c0/eab18c27fe4ab9fb9709a5d5f40119b45f2ec8314f8d4cf12ce27e4c6f4ffa4a6321dc7db6c515068fa373c075b49691ba969f0010bf37f44c37ca40cd6bf7fe
   languageName: node
   linkType: hard
 

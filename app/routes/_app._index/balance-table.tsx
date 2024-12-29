@@ -1,5 +1,4 @@
 import NumberFlow from "@number-flow/react";
-import { Form, Link, useFetcher } from "react-router";
 import { ColumnDef } from "@tanstack/react-table";
 import { BigNumber } from "alchemy-sdk";
 import { ethers } from "ethers";
@@ -15,6 +14,7 @@ import {
   Star,
 } from "lucide-react";
 import { useState } from "react";
+import { Form, Link, useFetcher } from "react-router";
 import { ChainBadge } from "~/components/chain-badge";
 import { Button } from "~/components/ui/button";
 import {
@@ -204,7 +204,9 @@ export const BalanceTable: React.FC<Props> = ({ balances, favorites }) => {
   const balancesWithFavorites = balances
     .filter((balance) => {
       if (hideEmpty) {
-        return balance.queried_wallet_balances.some((qb) => qb.quantity > 0);
+        return balance.queried_wallet_balances.some(
+          (qb) => qb.quantity > 0 || (qb.value_usd_cents ?? 0) > 0
+        );
       }
       return true;
     })

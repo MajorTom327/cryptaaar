@@ -1,10 +1,8 @@
-import { redirect } from "react-router";
-
-import { Form } from "react-router";
+import { Form, redirect } from "react-router";
 import { destroySession, getSession } from "~/.server/services/session-service";
 import { Button } from "~/components/ui/button";
-
 import type { Route } from "./+types/route";
+export { ErrorBoundary } from "~/components/error-boundary";
 
 export const action = async ({ request }: Route.ActionArgs) => {
   console.log("Logged out");

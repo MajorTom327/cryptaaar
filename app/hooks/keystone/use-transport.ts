@@ -1,21 +1,38 @@
+"use client";
 import { TransportWebUSB } from "@keystonehq/hw-transport-webusb";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useHydrated } from "remix-utils/use-hydrated";
 
 export const useTransport = () => {
   const isClient = useHydrated();
   const [transport, setTransport] = useState<TransportWebUSB | null>(null);
 
+  const getTransport = useCallback(async () => {
+    if (!isClient) return;
+
+    /**
+     * 1. Request permission to access the device.
+     */
+    if ((await TransportWebUSB.getKeystoneDevices()).length <= 0) {
+      console.log("no device");
+      await TransportWebUSB.requestPermission();
+    }
+
+    /**
+     * 2. Connect to the device.
+     */
+    const transport = await TransportWebUSB.connect({
+      timeout: 100000,
+    });
+
+    setTransport(() => transport);
+    console.log("Loaded transport", transport);
+  }, [isClient, setTransport]);
+
   useEffect(() => {
     console.log("isClient", isClient);
-    const init = async () => {
-      if (!isClient) return;
-      await TransportWebUSB.requestPermission();
-      const result = await TransportWebUSB.connect({ timeout: 100000 });
-      setTransport(result);
-      console.log("Loaded transport");
-    };
-    init();
+
+    getTransport();
   }, [isClient]);
 
   return { transport };

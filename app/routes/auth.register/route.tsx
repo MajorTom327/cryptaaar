@@ -7,6 +7,7 @@ import { Label } from "~/components/ui/label";
 import { formDataToObject } from "~/lib/formDataToObject";
 import type { Route } from "./+types/route";
 import { EmailTooltip } from "./email-tooltip";
+export { ErrorBoundary } from "~/components/error-boundary";
 
 const formDataSchema = z
   .object({

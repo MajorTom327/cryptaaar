@@ -14,6 +14,8 @@ import { BalanceTable } from "./balance-table";
 import { DistributionCard } from "./distribution-card";
 import { BalanceCard } from "./favorites/balance-card";
 
+export { ErrorBoundary } from "~/components/error-boundary";
+
 export async function loader({ request }: Route.LoaderArgs) {
   const user = await preventNotConnected(request);
   await preventNoWallet(user);

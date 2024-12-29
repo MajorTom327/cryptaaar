@@ -6,6 +6,7 @@ import { preventNotConnected } from "~/.server/utils/prevent/prevent-not-connect
 import { Input } from "~/components/ui/input";
 import type { Route } from "./+types/route";
 import { NftCard } from "./components/nft-card";
+export { ErrorBoundary } from "~/components/error-boundary";
 
 export async function loader({ request, params, context }: Route.LoaderArgs) {
   const user = await preventNotConnected(request);

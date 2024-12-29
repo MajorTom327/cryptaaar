@@ -8,6 +8,7 @@ import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import type { Route } from "./+types/route";
 import { AddressList } from "./address-list";
+export { ErrorBoundary } from "~/components/error-boundary";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const user = await preventNotConnected(request);
