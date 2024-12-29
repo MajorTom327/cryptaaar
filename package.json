@@ -17,6 +17,9 @@
     "db:seed": "drizzle-kit seed"
   },
   "dependencies": {
+    "@keystonehq/hw-app-eth": "^0.4.4",
+    "@keystonehq/hw-app-sol": "^0.1.1",
+    "@keystonehq/hw-transport-webusb": "^0.5.1",
     "@logtape/logtape": "^0.8.0",
     "@number-flow/react": "^0.3.5",
     "@radix-ui/react-checkbox": "^1.1.3",

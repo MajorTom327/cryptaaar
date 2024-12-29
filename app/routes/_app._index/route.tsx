@@ -1,12 +1,16 @@
-import { ActionFunctionArgs, LoaderFunctionArgs, redirect } from "react-router";
-import { Await, useLoaderData } from "react-router";
 import { Suspense } from "react";
+import {
+  ActionFunctionArgs,
+  Await,
+  LoaderFunctionArgs,
+  useLoaderData,
+} from "react-router";
 import { namedAction } from "remix-utils/named-action";
 import { z } from "zod";
-import { AddressesDao } from "~/.server/dao/addresses-dao";
 import { ContractDao } from "~/.server/dao/contract-dao";
 import { authenticator } from "~/.server/services/authenticator";
 import { BalancesService as SimpleHashService } from "~/.server/services/simple-hash";
+import { preventNoWallet } from "~/.server/utils/prevent-no-wallet";
 import { SimpleHashChain } from "~/types/simple-hash/sh-chains";
 import { BalanceTable } from "./balance-table";
 import { DistributionCard } from "./distribution-card";
@@ -16,11 +20,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const user = await authenticator.isAuthenticated(request, {
     failureRedirect: "/auth/login",
   });
-
-  const addressDao = new AddressesDao();
-
-  const address = await addressDao.getMainAddress(user);
-  if (!address) throw redirect("/addresses/add");
+  await preventNoWallet(user);
 
   const simpleHashService = new SimpleHashService(user);
 

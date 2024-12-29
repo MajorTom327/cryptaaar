@@ -1,0 +1,9 @@
+cryptaaar.localhost {
+    reverse_proxy localhost:5173 # Replace 3000 with your Remix app's port
+}
+
+# Alternatively, for HTTPS on localhost (self-signed certificates)
+# https://localhost {
+#     tls internal
+#     reverse_proxy localhost:5173
+# }

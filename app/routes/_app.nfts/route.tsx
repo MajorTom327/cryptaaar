@@ -1,7 +1,12 @@
-import { LoaderFunctionArgs } from "react-router";
-import { Outlet, useLoaderData, useParams } from "react-router";
+import {
+  LoaderFunctionArgs,
+  Outlet,
+  useLoaderData,
+  useParams,
+} from "react-router";
 import { authenticator } from "~/.server/services/authenticator";
 import { NftService } from "~/.server/services/simple-hash/nft-service";
+import { preventNoWallet } from "~/.server/utils/prevent-no-wallet";
 import { Separator } from "~/components/ui/separator";
 import { CollectionItem } from "./components/collection-item";
 import { CollectionSelector } from "./components/collection-selector";
@@ -11,6 +16,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     failureRedirect: "/login",
   });
 
+  await preventNoWallet(user);
   const nftService = new NftService(user);
 
   return {

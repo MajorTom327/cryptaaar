@@ -1,6 +1,6 @@
-import { Button } from "~/components/ui/button";
+import { Usb, Wallet } from "lucide-react";
 import { Link } from "react-router";
-import { QrCode, Wallet } from "lucide-react";
+import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 export default function LoginRoute() {
@@ -13,9 +13,9 @@ export default function LoginRoute() {
         <CardContent>
           <div className="grid grid-cols-2 gap-2">
             <Button asChild variant={"outline"}>
-              <Link to="./keystone">
-                <QrCode />
-                Use AirGapped Wallet
+              <Link to="./hardware">
+                <Usb />
+                Hardware Wallet
               </Link>
             </Button>
 
