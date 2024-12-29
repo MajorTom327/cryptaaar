@@ -27,6 +27,7 @@ export const FungibleSchema = z.object({
   symbol: z.string().nullable().default("Unknown"),
   decimals: z.number(),
   chain: z.nativeEnum(SimpleHashChain),
+  image_url: z.string().nullable().default(null),
   prices: z.array(PriceSchema),
   total_quantity: z.number(),
   total_quantity_string: z.string(),
