@@ -1,25 +1,21 @@
 import { Suspense } from "react";
-import {
-  ActionFunctionArgs,
-  Await,
-  LoaderFunctionArgs,
-  useLoaderData,
-} from "react-router";
+import { Await, useLoaderData } from "react-router";
+
+import type { Route } from "./+types/route";
+
 import { namedAction } from "remix-utils/named-action";
 import { z } from "zod";
 import { ContractDao } from "~/.server/dao/contract-dao";
-import { authenticator } from "~/.server/services/authenticator";
 import { BalancesService as SimpleHashService } from "~/.server/services/simple-hash";
-import { preventNoWallet } from "~/.server/utils/prevent-no-wallet";
+import { preventNoWallet } from "~/.server/utils/prevent/prevent-no-wallet";
+import { preventNotConnected } from "~/.server/utils/prevent/prevent-not-connected";
 import { SimpleHashChain } from "~/types/simple-hash/sh-chains";
 import { BalanceTable } from "./balance-table";
 import { DistributionCard } from "./distribution-card";
 import { BalanceCard } from "./favorites/balance-card";
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const user = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/auth/login",
-  });
+export async function loader({ request }: Route.LoaderArgs) {
+  const user = await preventNotConnected(request);
   await preventNoWallet(user);
 
   const simpleHashService = new SimpleHashService(user);
@@ -81,10 +77,8 @@ export default function Index() {
   );
 }
 
-export async function action({ request }: ActionFunctionArgs) {
-  const user = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/auth/login",
-  });
+export async function action({ request }: Route.ActionArgs) {
+  const user = await preventNotConnected(request);
 
   return namedAction(request, {
     async fav() {

@@ -1,10 +1,12 @@
-import { ActionFunctionArgs, redirect } from "react-router";
+import { redirect } from "react-router";
 
-import { destroySession, getSession } from "~/.server/services/session-service";
 import { Form } from "react-router";
+import { destroySession, getSession } from "~/.server/services/session-service";
 import { Button } from "~/components/ui/button";
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+import type { Route } from "./+types/route";
+
+export const action = async ({ request }: Route.ActionArgs) => {
   console.log("Logged out");
 
   const session = await getSession(request.headers.get("Cookie"));

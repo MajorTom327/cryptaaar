@@ -1,22 +1,16 @@
 import { Plus } from "lucide-react";
-import {
-  Link,
-  LoaderFunctionArgs,
-  redirect,
-  useLoaderData,
-} from "react-router";
+import { Link, redirect, useLoaderData } from "react-router";
 import { AddressesDao } from "~/.server/dao/addresses-dao";
-import { authenticator } from "~/.server/services/authenticator";
 import { EnsService } from "~/.server/services/simple-hash/ens-service";
-import { preventNoWallet } from "~/.server/utils/prevent-no-wallet";
+import { preventNoWallet } from "~/.server/utils/prevent/prevent-no-wallet";
+import { preventNotConnected } from "~/.server/utils/prevent/prevent-not-connected";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import type { Route } from "./+types/route";
 import { AddressList } from "./address-list";
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const user = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/auth/login",
-  });
+export async function loader({ request }: Route.LoaderArgs) {
+  const user = await preventNotConnected(request);
 
   await preventNoWallet(user);
   const addressesDao = new AddressesDao();

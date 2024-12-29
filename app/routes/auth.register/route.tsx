@@ -1,11 +1,11 @@
-import { ActionFunctionArgs, data, redirect } from "react-router";
-import { Form, Link } from "react-router";
+import { data, Form, Link, redirect } from "react-router";
 import { z } from "zod";
 import { UserDao } from "~/.server/dao/user-dao";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { formDataToObject } from "~/lib/formDataToObject";
+import type { Route } from "./+types/route";
 import { EmailTooltip } from "./email-tooltip";
 
 const formDataSchema = z
@@ -60,7 +60,7 @@ export const RegisterRoute = () => {
 
 export default RegisterRoute;
 
-export async function action({ request }: ActionFunctionArgs) {
+export async function action({ request }: Route.ActionArgs) {
   const requestBody = await request.clone().formData();
 
   const formData = formDataSchema.safeParse(formDataToObject(requestBody));

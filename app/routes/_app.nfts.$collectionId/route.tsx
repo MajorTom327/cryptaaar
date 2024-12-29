@@ -1,16 +1,14 @@
-import { LoaderFunctionArgs, redirect } from "react-router";
-import { Await, Outlet, useLoaderData } from "react-router";
 import { Suspense, useState } from "react";
+import { Await, Outlet, redirect, useLoaderData } from "react-router";
 import { z } from "zod";
-import { authenticator } from "~/.server/services/authenticator";
 import { NftService } from "~/.server/services/simple-hash/nft-service";
+import { preventNotConnected } from "~/.server/utils/prevent/prevent-not-connected";
 import { Input } from "~/components/ui/input";
+import type { Route } from "./+types/route";
 import { NftCard } from "./components/nft-card";
 
-export async function loader({ request, params, context }: LoaderFunctionArgs) {
-  const user = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/login",
-  });
+export async function loader({ request, params, context }: Route.LoaderArgs) {
+  const user = await preventNotConnected(request);
 
   const parsedParams = z.object({ collectionId: z.string() }).safeParse(params);
 

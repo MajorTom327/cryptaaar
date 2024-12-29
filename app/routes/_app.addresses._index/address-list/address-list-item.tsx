@@ -1,9 +1,9 @@
 import { QrCode } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 import { ClientOnly } from "remix-utils/client-only";
 import { match, P } from "ts-pattern";
-import { UserAddress } from "~/.server/database";
+import type { UserAddress } from "~/.server/database";
 import { AddressFormat } from "~/components/formatters/address-format";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";

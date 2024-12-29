@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import {
   createContext,
-  PropsWithChildren,
+  type PropsWithChildren,
   useContext,
   useEffect,
   useMemo,

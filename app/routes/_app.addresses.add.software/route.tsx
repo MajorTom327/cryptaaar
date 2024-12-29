@@ -1,13 +1,13 @@
-import { useFetcher, useLoaderData } from "react-router";
-import { useSigner } from "~/contexts";
 import { useCallback, useState } from "react";
-import { ActionFunctionArgs, data, LoaderFunctionArgs, redirect } from "react-router";
-import { authenticator } from "~/.server/services/authenticator";
-import { commitSession, getSession } from "~/.server/services/session-service";
+import { data, redirect, useFetcher, useLoaderData } from "react-router";
 import { z } from "zod";
-import { ConnectButton } from "./components/connect-button";
 import { AddressesDao } from "~/.server/dao/addresses-dao";
 import { UserDao } from "~/.server/dao/user-dao";
+import { commitSession, getSession } from "~/.server/services/session-service";
+import { preventNotConnected } from "~/.server/utils/prevent/prevent-not-connected";
+import { useSigner } from "~/contexts";
+import type { Route } from "./+types/route";
+import { ConnectButton } from "./components/connect-button";
 
 const formDataSchema = z.object({
   message: z.object({
@@ -20,10 +20,8 @@ const formDataSchema = z.object({
 
 type FormData = z.infer<typeof formDataSchema>;
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  await authenticator.isAuthenticated(request, {
-    failureRedirect: "/auth/login",
-  });
+export async function loader({ request }: Route.LoaderArgs) {
+  const user = await preventNotConnected(request);
 
   const session = await getSession(request.headers.get("Cookie"));
   const addressesDao = new AddressesDao();
@@ -38,7 +36,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       headers: {
         "Set-Cookie": await commitSession(session),
       },
-    },
+    }
   );
 }
 
@@ -94,10 +92,8 @@ export const LoginWalletPage = () => {
 
 export default LoginWalletPage;
 
-export async function action({ request }: ActionFunctionArgs) {
-  const user = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/auth/login",
-  });
+export async function action({ request }: Route.ActionArgs) {
+  const user = await preventNotConnected(request);
 
   const requestBody = await request.clone().json();
 

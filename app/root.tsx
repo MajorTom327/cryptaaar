@@ -1,14 +1,36 @@
-import type { LoaderFunctionArgs } from "react-router";
-import { Links, Meta, Outlet, Scripts, ScrollRestoration, useRouteError } from "react-router";
+import {
+  isRouteErrorResponse,
+  Links,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+} from "react-router";
 
-import { propOr } from "rambda";
-import { authenticator } from "~/.server/services/authenticator";
-import { Web3Provider } from "~/contexts";
+import type { Route } from "./+types/root";
+import { preventNotConnected } from "./.server/utils/prevent/prevent-not-connected";
+import stylesheet from "./app.css?url";
 import { TooltipProvider } from "./components/ui/tooltip";
-import "./tailwind.css";
+import { Web3Provider } from "./contexts";
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const user = await authenticator.isAuthenticated(request);
+export const links: Route.LinksFunction = () => [
+  { rel: "preconnect", href: "https://fonts.googleapis.com" },
+  {
+    rel: "preconnect",
+    href: "https://fonts.gstatic.com",
+    crossOrigin: "anonymous",
+  },
+  {
+    rel: "stylesheet",
+    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+  },
+  { rel: "stylesheet", href: stylesheet },
+];
+
+export async function loader({ request }: Route.LoaderArgs) {
+  const user = await preventNotConnected(request, {
+    skipFailureRedirect: true,
+  });
 
   return {
     user,
@@ -41,8 +63,31 @@ export default function App() {
   return <Outlet />;
 }
 
-export const ErrorBoundary = () => {
-  const error = useRouteError();
-  console.log("error", error);
-  return <div>Error {propOr(500, "status", error)}</div>;
-};
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  let message = "Oops!";
+  let details = "An unexpected error occurred.";
+  let stack: string | undefined;
+
+  if (isRouteErrorResponse(error)) {
+    message = error.status === 404 ? "404" : "Error";
+    details =
+      error.status === 404
+        ? "The requested page could not be found."
+        : error.statusText || details;
+  } else if (import.meta.env.DEV && error && error instanceof Error) {
+    details = error.message;
+    stack = error.stack;
+  }
+
+  return (
+    <main className="pt-16 p-4 container mx-auto">
+      <h1>{message}</h1>
+      <p>{details}</p>
+      {stack && (
+        <pre className="w-full p-4 overflow-x-auto">
+          <code>{stack}</code>
+        </pre>
+      )}
+    </main>
+  );
+}

@@ -1,18 +1,15 @@
-import { LoaderFunctionArgs } from "react-router";
-import { Outlet, useRouteError } from "react-router";
 import { propOr } from "rambda";
-import { FC } from "react";
-import { authenticator } from "~/.server/services/authenticator";
+import { Outlet, useRouteError } from "react-router";
+import { preventNotConnected } from "~/.server/utils/prevent/prevent-not-connected";
 import { AppLayout } from "~/components/app-layout";
+import type { Route } from "./+types/route";
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  await authenticator.isAuthenticated(request, {
-    failureRedirect: "/auth/login",
-  });
+export async function loader({ request }: Route.LoaderArgs) {
+  await preventNotConnected(request);
   return null;
 }
 
-export const Page: FC = () => {
+export const Page: React.FC = () => {
   return (
     <>
       <AppLayout>

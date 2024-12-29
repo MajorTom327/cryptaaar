@@ -8,5 +8,8 @@
     "**/Thumbs.db": true,
     ".yarn": true,
     ".idea": true
+  },
+  "explorer.fileNesting.patterns": {
+    "Dockerfile*": "Dockerfile.*"
   }
 }

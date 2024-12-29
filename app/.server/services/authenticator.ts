@@ -1,11 +1,10 @@
-import { User } from "~/types";
 import { Authenticator } from "remix-auth";
-import { sessionStorage } from "./session-service";
 import { FormStrategy } from "remix-auth-form";
-import { UserDao } from "~/.server/dao/user-dao";
 import { z } from "zod";
+import { UserDao } from "~/.server/dao/user-dao";
+import type { User } from "~/types";
 
-export const authenticator = new Authenticator<User>(sessionStorage);
+export const authenticator = new Authenticator<User>();
 
 authenticator.use(
   new FormStrategy(async ({ form }) => {
@@ -23,5 +22,5 @@ authenticator.use(
       return user;
     });
   }),
-  "user-pass",
+  "user-pass"
 );

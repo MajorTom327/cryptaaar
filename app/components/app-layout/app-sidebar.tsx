@@ -1,4 +1,3 @@
-import { Form, Link } from "react-router";
 import {
   ArrowLeftRight,
   BookUser,
@@ -11,7 +10,8 @@ import {
   Signature,
   UserRound,
 } from "lucide-react";
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
+import { Form, Link } from "react-router";
 import {
   Sidebar,
   SidebarContent,

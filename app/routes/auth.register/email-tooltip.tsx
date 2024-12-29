@@ -1,5 +1,5 @@
 import { Info } from "lucide-react";
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 import { Button } from "~/components/ui/button";
 import {
   Tooltip,

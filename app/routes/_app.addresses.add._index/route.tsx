@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
-export default function LoginRoute() {
+export default function AddressAddIndexRoute() {
   return (
     <>
       <Card>

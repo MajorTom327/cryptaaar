@@ -16,3 +16,5 @@ export const sessionStorage = createCookieSessionStorage({
 
 // you can also export the methods individually for your own usage
 export const { getSession, commitSession, destroySession } = sessionStorage;
+
+export type Session = Awaited<ReturnType<typeof getSession>>;

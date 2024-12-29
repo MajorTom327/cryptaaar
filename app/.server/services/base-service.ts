@@ -1,6 +1,7 @@
-import ky, { KyInstance, Options } from "ky";
+import type { KyInstance, Options } from "ky";
+import ky from "ky";
 import { match, P } from "ts-pattern";
-import { url_builder, UrlBuildParamsType } from "~/lib/url_builder";
+import { url_builder, type UrlBuildParamsType } from "~/lib/url_builder";
 
 type BaseServiceOptions = {
   baseApiUrl: string;

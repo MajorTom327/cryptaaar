@@ -1,5 +1,5 @@
 import { v7 } from "uuid";
-import { Session, SessionData } from "react-router";
+import type { Session } from "~/.server/services/session-service";
 import { ethers } from "ethers";
 import { addressesTable } from "~/.server/database";
 import { db } from "~/.server/db";
@@ -19,10 +19,7 @@ export class AddressesDao {
     return v7();
   }
 
-  verifyToken(
-    data: VerifyTokenData,
-    session: Session<SessionData, SessionData>,
-  ) {
+  verifyToken(data: VerifyTokenData, session: Session) {
     const { token, message, address } = data;
 
     if (!session.has("token")) {
@@ -35,7 +32,7 @@ export class AddressesDao {
 
     const signerAddr = ethers.utils.verifyMessage(
       message.data,
-      message.signature,
+      message.signature
     );
 
     if (signerAddr !== address) {
@@ -63,11 +60,11 @@ export class AddressesDao {
       .select()
       .from(addressesTable)
       .where(
-        and(eq(addressesTable.user, user.id), eq(addressesTable.isMain, true)),
+        and(eq(addressesTable.user, user.id), eq(addressesTable.isMain, true))
       )
       .limit(1)
       .then((addresses) =>
-        addresses.length > 0 ? addresses[0].address : null,
+        addresses.length > 0 ? addresses[0].address : null
       );
   }
 }

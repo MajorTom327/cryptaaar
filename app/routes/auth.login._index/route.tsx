@@ -1,8 +1,9 @@
-import { Input } from "~/components/ui/input";
-import { Button } from "~/components/ui/button";
-import { Link, useFetcher } from "react-router";
-import { ActionFunctionArgs } from "react-router";
+import { Link, redirect, useFetcher } from "react-router";
 import { authenticator } from "~/.server/services/authenticator";
+import { sessionStorage } from "~/.server/services/session-service";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
+import type { Route } from "./+types/route";
 
 export const AuthLoginLayout = () => {
   const fetcher = useFetcher();
@@ -30,9 +31,13 @@ export const AuthLoginLayout = () => {
 
 export default AuthLoginLayout;
 
-export async function action({ request }: ActionFunctionArgs) {
-  return authenticator.authenticate("user-pass", request, {
-    successRedirect: "/",
-    failureRedirect: "/auth/login",
+export async function action({ request }: Route.ActionArgs) {
+  const user = await authenticator.authenticate("user-pass", request);
+
+  let session = await sessionStorage.getSession(request.headers.get("cookie"));
+  session.set("user", user);
+
+  throw redirect("/", {
+    headers: { "Set-Cookie": await sessionStorage.commitSession(session) },
   });
 }

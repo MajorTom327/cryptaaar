@@ -1,20 +1,14 @@
-import {
-  LoaderFunctionArgs,
-  Outlet,
-  useLoaderData,
-  useParams,
-} from "react-router";
-import { authenticator } from "~/.server/services/authenticator";
+import { Outlet, useLoaderData, useParams } from "react-router";
 import { NftService } from "~/.server/services/simple-hash/nft-service";
-import { preventNoWallet } from "~/.server/utils/prevent-no-wallet";
+import { preventNoWallet } from "~/.server/utils/prevent/prevent-no-wallet";
+import { preventNotConnected } from "~/.server/utils/prevent/prevent-not-connected";
 import { Separator } from "~/components/ui/separator";
+import type { Route } from "./+types/route";
 import { CollectionItem } from "./components/collection-item";
 import { CollectionSelector } from "./components/collection-selector";
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const user = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/login",
-  });
+export async function loader({ request }: Route.LoaderArgs) {
+  const user = await preventNotConnected(request);
 
   await preventNoWallet(user);
   const nftService = new NftService(user);
