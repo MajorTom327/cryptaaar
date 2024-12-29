@@ -1,4 +1,4 @@
-import { Outlet } from "@remix-run/react";
+import { Outlet } from "react-router";
 import bgImage from "./assets/background.jpg";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 

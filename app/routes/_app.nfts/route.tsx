@@ -1,5 +1,5 @@
-import { LoaderFunctionArgs } from "@remix-run/node";
-import { Outlet, useLoaderData, useParams } from "@remix-run/react";
+import { LoaderFunctionArgs } from "react-router";
+import { Outlet, useLoaderData, useParams } from "react-router";
 import { authenticator } from "~/.server/services/authenticator";
 import { NftService } from "~/.server/services/simple-hash/nft-service";
 import { Separator } from "~/components/ui/separator";

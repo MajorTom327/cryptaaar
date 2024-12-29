@@ -1,7 +1,7 @@
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
-import { Link, useFetcher } from "@remix-run/react";
-import { ActionFunctionArgs } from "@remix-run/node";
+import { Link, useFetcher } from "react-router";
+import { ActionFunctionArgs } from "react-router";
 import { authenticator } from "~/.server/services/authenticator";
 
 export const AuthLoginLayout = () => {

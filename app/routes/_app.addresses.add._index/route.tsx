@@ -1,5 +1,5 @@
 import { Button } from "~/components/ui/button";
-import { Link } from "@remix-run/react";
+import { Link } from "react-router";
 import { QrCode, Wallet } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 

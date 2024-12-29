@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { Link } from "react-router";
 import { SidebarTrigger } from "~/components/ui/sidebar";
 import { Button } from "../ui/button";
 

@@ -1,5 +1,5 @@
-import { LoaderFunctionArgs } from "@remix-run/node";
-import { Outlet, useRouteError } from "@remix-run/react";
+import { LoaderFunctionArgs } from "react-router";
+import { Outlet, useRouteError } from "react-router";
 import { propOr } from "rambda";
 import { FC } from "react";
 import { authenticator } from "~/.server/services/authenticator";

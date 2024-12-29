@@ -1,5 +1,5 @@
 import { v7 } from "uuid";
-import { Session, SessionData } from "@remix-run/node";
+import { Session, SessionData } from "react-router";
 import { ethers } from "ethers";
 import { addressesTable } from "~/.server/database";
 import { db } from "~/.server/db";

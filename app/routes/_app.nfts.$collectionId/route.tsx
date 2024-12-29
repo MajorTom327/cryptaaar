@@ -1,5 +1,5 @@
-import { LoaderFunctionArgs, redirect } from "@remix-run/node";
-import { Await, Outlet, useLoaderData } from "@remix-run/react";
+import { LoaderFunctionArgs, redirect } from "react-router";
+import { Await, Outlet, useLoaderData } from "react-router";
 import { Suspense, useState } from "react";
 import { z } from "zod";
 import { authenticator } from "~/.server/services/authenticator";
