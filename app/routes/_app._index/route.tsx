@@ -6,7 +6,7 @@ import type { Route } from "./+types/route";
 import { namedAction } from "remix-utils/named-action";
 import { z } from "zod";
 import { ContractDao } from "~/.server/dao/contract-dao";
-import { BalancesService as SimpleHashService } from "~/.server/services/simple-hash";
+import { BalancesService as SimpleHashService } from "~/.server/services/data";
 import { preventNoWallet } from "~/.server/utils/prevent/prevent-no-wallet";
 import { preventNotConnected } from "~/.server/utils/prevent/prevent-not-connected";
 import { SimpleHashChain } from "~/types/simple-hash/sh-chains";

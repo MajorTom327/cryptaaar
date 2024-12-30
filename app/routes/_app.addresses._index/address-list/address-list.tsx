@@ -7,7 +7,7 @@ type Props = {
 
 export const AddressList: React.FC<Props> = ({ addresses }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+    <div className="flex flex-col gap-2">
       {addresses.map((address) => (
         <AddressListItem key={address.address} address={address} />
       ))}

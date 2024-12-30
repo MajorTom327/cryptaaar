@@ -13,11 +13,11 @@ export default function AddressAddIndexRoute() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 gap-2">
-            <Button asChild variant={"outline"}>
-              <Link to="./hardware">
-                <Usb />
-                Hardware Wallet
-              </Link>
+            <Button variant={"outline"} disabled title="Coming soon">
+              {/* <Link to="./hardware"> */}
+              <Usb />
+              Hardware Wallet
+              {/* </Link> */}
             </Button>
 
             <Button asChild variant={"default"}>

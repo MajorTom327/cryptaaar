@@ -1,4 +1,4 @@
-import { match } from "ts-pattern"; // Network.ETH_MAINNET,
+import { match } from "ts-pattern";
 import { SimpleHashChain } from "~/types/simple-hash/sh-chains";
 
 export const NetworkFormat: React.FC<{ network: SimpleHashChain }> = ({

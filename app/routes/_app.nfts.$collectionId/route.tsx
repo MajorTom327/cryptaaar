@@ -1,7 +1,7 @@
 import { Suspense, useState } from "react";
 import { Await, Outlet, redirect, useLoaderData } from "react-router";
 import { z } from "zod";
-import { NftService } from "~/.server/services/simple-hash/nft-service";
+import { NftService } from "~/.server/services/data/nft-service";
 import { preventNotConnected } from "~/.server/utils/prevent/prevent-not-connected";
 import { Input } from "~/components/ui/input";
 import type { Route } from "./+types/route";
@@ -19,8 +19,7 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
 
   const { collectionId } = parsedParams.data;
 
-  const nftService = new NftService(user);
-  console.log(context);
+  const nftService = new NftService(user!);
 
   return {
     nfts: nftService.getCollectionNFTs(collectionId),

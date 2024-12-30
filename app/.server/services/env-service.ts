@@ -16,8 +16,6 @@ type PublicEnvType = z.infer<typeof publicEnvSchema>;
 
 const baseEnv = process.env;
 
-console.log(import.meta.env);
-
 class EnvService {
   public readonly env: EnvType;
   public readonly publicEnv: PublicEnvType;

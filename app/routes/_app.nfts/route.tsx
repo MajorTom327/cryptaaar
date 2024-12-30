@@ -1,5 +1,5 @@
 import { Outlet, useLoaderData, useParams } from "react-router";
-import { NftService } from "~/.server/services/simple-hash/nft-service";
+import { NftService } from "~/.server/services/data/nft-service";
 import { preventNoWallet } from "~/.server/utils/prevent/prevent-no-wallet";
 import { preventNotConnected } from "~/.server/utils/prevent/prevent-not-connected";
 import { Separator } from "~/components/ui/separator";
@@ -12,7 +12,7 @@ export async function loader({ request }: Route.LoaderArgs) {
   const user = await preventNotConnected(request);
 
   await preventNoWallet(user);
-  const nftService = new NftService(user);
+  const nftService = new NftService(user!);
 
   return {
     collections: await nftService.getCollections(),

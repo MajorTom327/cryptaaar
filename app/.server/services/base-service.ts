@@ -77,8 +77,6 @@ export class BaseService {
 
         const { statusCode } = errorData;
 
-        console.log(JSON.stringify(errorData, null, 2));
-
         if (!fetcherOptions.skipError)
           console.log(`[${statusCode ?? "Unknown"}] - ${e.message}`);
 

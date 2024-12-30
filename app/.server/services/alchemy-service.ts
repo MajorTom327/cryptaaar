@@ -1,4 +1,6 @@
 import { Alchemy, AlchemySettings, Network } from "alchemy-sdk";
+import { match } from "ts-pattern";
+import { SimpleHashChain } from "~/types/simple-hash/sh-chains";
 import { envService } from "./env-service";
 
 export class AlchemyService {
@@ -6,7 +8,13 @@ export class AlchemyService {
 
   private constructor() {}
 
-  public static getClient(network: Network = Network.ETH_MAINNET): Alchemy {
+  public static getClient(
+    chainId: SimpleHashChain = SimpleHashChain.ethereum
+  ): Alchemy | null {
+    const network = this.getNetwork(chainId);
+    if (!network) {
+      return null;
+    }
     if (!AlchemyService.instances.has(network)) {
       AlchemyService.instances.set(network, this.createClient(network));
     }
@@ -20,6 +28,19 @@ export class AlchemyService {
 
   public static all(): Alchemy[] {
     return this.getNetworks().map((network) => this.getClient(network));
+  }
+
+  public static getNetwork(chain: SimpleHashChain): Network | null {
+    return match(chain)
+      .with(SimpleHashChain.ethereum, () => Network.ETH_MAINNET)
+      .with(SimpleHashChain.optimism, () => Network.OPT_MAINNET)
+      .with(SimpleHashChain.polygon, () => Network.MATIC_MAINNET)
+      .with(SimpleHashChain.base, () => Network.BASE_MAINNET)
+      .with(SimpleHashChain.opbnb, () => Network.OPBNB_MAINNET)
+      .with(SimpleHashChain.bsc, () => Network.BNB_MAINNET)
+      .with(SimpleHashChain.avalanche, () => Network.AVAX_MAINNET)
+      .with(SimpleHashChain.solana, () => null)
+      .exhaustive();
   }
 
   public static getNetworks() {
@@ -39,7 +60,7 @@ export class AlchemyService {
   }
 
   private static getSettings(
-    network: Network = Network.ETH_MAINNET,
+    network: Network = Network.ETH_MAINNET
   ): AlchemySettings {
     return {
       apiKey: envService.env.ALCHEMY_API_KEY,

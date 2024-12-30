@@ -1,5 +1,6 @@
 import { redirect } from "react-router";
 import { sessionStorage } from "~/.server/services/session-service";
+import { User } from "~/types";
 
 type PreventNotConnectedOptions = Partial<{
   skipFailureRedirect: boolean;
@@ -21,5 +22,5 @@ export async function preventNotConnected(
     throw redirect("/auth/login");
   }
 
-  return user;
+  return user as User;
 }

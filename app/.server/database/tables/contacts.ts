@@ -13,9 +13,11 @@ export const contacts = pgTable("contacts", {
   description: text("description"),
 
   network: text("network").notNull().$type<SimpleHashChain>(),
-  address: text("address").notNull(),
-
+  address: text("address"),
+  ens: text("ens"),
   userId: text("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
 });
+
+export type Contact = typeof contacts.$inferSelect;

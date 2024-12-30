@@ -1,7 +1,7 @@
 import { Plus } from "lucide-react";
 import { Link, redirect, useLoaderData } from "react-router";
 import { AddressesDao } from "~/.server/dao/addresses-dao";
-import { EnsService } from "~/.server/services/simple-hash/ens-service";
+import { EnsService } from "~/.server/services/data/ens-service";
 import { preventNoWallet } from "~/.server/utils/prevent/prevent-no-wallet";
 import { preventNotConnected } from "~/.server/utils/prevent/prevent-not-connected";
 import { Button } from "~/components/ui/button";
@@ -17,7 +17,7 @@ export async function loader({ request }: Route.LoaderArgs) {
   const addressesDao = new AddressesDao();
 
   const addresses = await addressesDao.getAddresses(user!);
-  const ensService = new EnsService(user);
+  const ensService = new EnsService(user!);
   const ens = await ensService.getEnsForAddress(
     addresses.map((a) => a.address)
   );
@@ -36,7 +36,6 @@ export async function loader({ request }: Route.LoaderArgs) {
 export const AddressesIndexRoute = () => {
   const data = useLoaderData<typeof loader>();
 
-  console.log(data);
   return (
     <>
       <Card>

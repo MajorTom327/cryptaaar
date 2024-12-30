@@ -11,7 +11,7 @@ export const CACHE_TTL_SHORT = match(envService.env.NODE_ENV)
   .as("seconds");
 
 export const CACHE_TTL_LONG = match(envService.env.NODE_ENV)
-  .with("development", () => Duration.fromObject({ minutes: 2.5 }))
+  .with("development", () => Duration.fromObject({ minutes: 1 }))
   .with("test", () => Duration.fromObject({ seconds: 1 }))
   .with("production", () => Duration.fromObject({ hours: 12 }))
   .exhaustive()

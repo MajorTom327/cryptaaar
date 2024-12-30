@@ -7,9 +7,13 @@
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     ".yarn": true,
-    ".idea": true
+    ".idea": true,
+    "node_modules": true
   },
   "explorer.fileNesting.patterns": {
     "Dockerfile*": "Dockerfile.*"
+  },
+  "search.exclude": {
+    "yarn.lock": true
   }
 }
