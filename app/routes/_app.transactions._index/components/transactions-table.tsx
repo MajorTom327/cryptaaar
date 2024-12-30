@@ -55,8 +55,6 @@ const columns: ColumnDef<Transaction>[] = [
     cell: ({ cell }) => {
       const timestamp = DateTime.fromISO(cell.getValue<string>());
 
-      console.log(timestamp, typeof timestamp);
-
       return (
         <>
           <div className="flex flex-col group relative h-16 items-center justify-center gap-2">
